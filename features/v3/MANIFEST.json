@@ -1,0 +1,508 @@
+{
+ "created_utc": "2026-11-06T14:41:38.444164+00:00",
+ "git_at_freeze": {
+  "commit": "48008f27ca9503480f76b2fdb9def0a4dc80c5c2",
+  "dirty": true
+ },
+ "freeze_config_sha256": "b3425cdd8b55a428f70b2439fddb42b50be3f120f751c950811190c65a612f99",
+ "sources": {
+  "step2": {
+   "zip": "v3_outputs_small.zip",
+   "kaggle_commit": "2f28f05",
+   "steps": "0-2 final"
+  },
+  "step3": {
+   "zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47",
+   "steps": "3 and 3b"
+  },
+  "step4": {
+   "zip": "v3_outputs_small (3).zip",
+   "kaggle_commit": "7f04d84",
+   "steps": "4"
+  },
+  "step5_7": {
+   "zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056",
+   "steps": "5-7 (Step 4 re-run byte-identical)"
+  },
+  "step7b": {
+   "zip": "v3_outputs_small (5).zip",
+   "kaggle_commit": "a8acc35",
+   "steps": "7b"
+  }
+ },
+ "tables": [
+  {
+   "path": "features/v3/epoch_qc_v3.csv",
+   "sha256": "2fd29d78b670fe43ab9efcc9c6b1e3401dcc5981e6984286304afc5d5f062af4",
+   "bytes": 3786,
+   "role": "cohort_qc",
+   "source_zip": "v3_outputs_small.zip",
+   "kaggle_commit": "2f28f05"
+  },
+  {
+   "path": "features/v3/subject_meta_v3.csv",
+   "sha256": "2903068eab3c0ccb2f11c3648f71cf0cdd001224aff39556092b6aa7eeb7e3e0",
+   "bytes": 8000,
+   "role": "cohort_meta",
+   "source_zip": "v3_outputs_small.zip",
+   "kaggle_commit": "2f28f05",
+   "equals_committed": true
+  },
+  {
+   "path": "features/v3/spectral_v3.csv",
+   "sha256": "c614b1a4f89fb9a08080937b6779156549150291729ffe46a4e3c39149267b05",
+   "bytes": 126057,
+   "role": "noise_inflated_not_tested",
+   "source_zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47",
+   "sidecar": {
+    "path": "features/v3/spectral_v3.meta.json",
+    "sha256": "64229f830c238d21e0594edcf847f402dc684e661fd938ac6cf979f769510d94",
+    "bytes": 9928
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/spectral.config.json",
+    "sha256": "5f674eecc115dbafee951b601c97cc2fe009136194bb658f51ca3b38dedfa1b4",
+    "bytes": 3727
+   },
+   "config": {
+    "path": "configs/v3/spectral.json",
+    "sidecar_config_sha256": "5f674eecc115dbafee951b601c97cc2fe009136194bb658f51ca3b38dedfa1b4",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "9346c473f2f6ab32ae85cdda6a0fc7439d828844",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/spectral_lesion_v3.csv",
+   "sha256": "06712bc93d3fd473ba1960d25160d4252cd44c8dd02e0574f72852ca38dcb852",
+   "bytes": 71760,
+   "role": "noise_inflated_not_tested",
+   "source_zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47",
+   "sidecar": {
+    "path": "features/v3/spectral_lesion_v3.meta.json",
+    "sha256": "b2eea68454bbcec218edddca9e96f508774e2ad487cdbc8ef6e99876394db535",
+    "bytes": 8892
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/spectral.config.json",
+    "sha256": "5f674eecc115dbafee951b601c97cc2fe009136194bb658f51ca3b38dedfa1b4",
+    "bytes": 3727
+   },
+   "config": {
+    "path": "configs/v3/spectral.json",
+    "sidecar_config_sha256": "5f674eecc115dbafee951b601c97cc2fe009136194bb658f51ca3b38dedfa1b4",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "9346c473f2f6ab32ae85cdda6a0fc7439d828844",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/spectral_v3b.csv",
+   "sha256": "c55c74f729795e17d7be57b9b0434bb8686a275b752f5d65c35c599f5531d609",
+   "bytes": 126140,
+   "role": "registry_input",
+   "source_zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47",
+   "sidecar": {
+    "path": "features/v3/spectral_v3b.meta.json",
+    "sha256": "afeb91a1d72197e74ee543f49807836155e851195b035e4d4cf38b691384592f",
+    "bytes": 10281
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/spectral_v3b.config.json",
+    "sha256": "5a1adff3c991ddd448b9ae97c87def92f147c5ed72d9fc42b7731fc3c406fa86",
+    "bytes": 5239
+   },
+   "config": {
+    "path": "configs/v3/spectral_v3b.json",
+    "sidecar_config_sha256": "5a1adff3c991ddd448b9ae97c87def92f147c5ed72d9fc42b7731fc3c406fa86",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "9346c473f2f6ab32ae85cdda6a0fc7439d828844",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/spectral_lesion_v3b.csv",
+   "sha256": "97983fb76782756017292f1422430a84ae75d36adf6df80d47e9a42ccd47e476",
+   "bytes": 71675,
+   "role": "registry_input",
+   "source_zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47",
+   "sidecar": {
+    "path": "features/v3/spectral_lesion_v3b.meta.json",
+    "sha256": "50ba04afa277afe2bad610b52587a4fd7f15739b141cd421d905ec9054e0b6f1",
+    "bytes": 9193
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/spectral_v3b.config.json",
+    "sha256": "5a1adff3c991ddd448b9ae97c87def92f147c5ed72d9fc42b7731fc3c406fa86",
+    "bytes": 5239
+   },
+   "config": {
+    "path": "configs/v3/spectral_v3b.json",
+    "sidecar_config_sha256": "5a1adff3c991ddd448b9ae97c87def92f147c5ed72d9fc42b7731fc3c406fa86",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "9346c473f2f6ab32ae85cdda6a0fc7439d828844",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/connectivity_core_v3.csv",
+   "sha256": "a7be010c9456cd64525c178a82b40a8621f7be502c7a26d57653d37d6feac30f",
+   "bytes": 104422,
+   "role": "intermediate",
+   "source_zip": "v3_outputs_small (3).zip",
+   "kaggle_commit": "7f04d84",
+   "sidecar": {
+    "path": "features/v3/connectivity_core_v3.meta.json",
+    "sha256": "024be0c16e74ff7c90f722685d816e563562517dedeb5dfa9877db7d985f658c",
+    "bytes": 8842
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/connectivity.config.json",
+    "sha256": "ea4b38f249a18e1b9f782477be8a4cf77323a417d72c576fc6090541a62faad0",
+    "bytes": 4281
+   },
+   "config": {
+    "path": "configs/v3/connectivity.json",
+    "sidecar_config_sha256": "ea4b38f249a18e1b9f782477be8a4cf77323a417d72c576fc6090541a62faad0",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "7f04d842839eaca7d9d57d302dd16649275654c2",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/connectivity_ext_v3.csv",
+   "sha256": "9b0023a602bdcf7fd9ad930bac87d5907ccb5e5dde6d29e997088b8a6ce77fb3",
+   "bytes": 863872,
+   "role": "intermediate",
+   "source_zip": "v3_outputs_small (3).zip",
+   "kaggle_commit": "7f04d84",
+   "sidecar": {
+    "path": "features/v3/connectivity_ext_v3.meta.json",
+    "sha256": "a0b0e3292519d319efd00e8a4a85df3de35ded3b3a17fc403298110486ff3c9c",
+    "bytes": 29000
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/connectivity.config.json",
+    "sha256": "ea4b38f249a18e1b9f782477be8a4cf77323a417d72c576fc6090541a62faad0",
+    "bytes": 4281
+   },
+   "config": {
+    "path": "configs/v3/connectivity.json",
+    "sidecar_config_sha256": "ea4b38f249a18e1b9f782477be8a4cf77323a417d72c576fc6090541a62faad0",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "7f04d842839eaca7d9d57d302dd16649275654c2",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/graph_node_v3.csv",
+   "sha256": "7bc3ef2e5986ff75afc459a671b6237bcfec3270a1f74b2db6b893812f9d4110",
+   "bytes": 442384,
+   "role": "descriptive_mixed",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056",
+   "sidecar": {
+    "path": "features/v3/graph_node_v3.meta.json",
+    "sha256": "e28d1d4fd7cb4ee77d68b3abbd768b82c532a8163437b42d108867eba80100a1",
+    "bytes": 23906
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/graph.config.json",
+    "sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "bytes": 5436
+   },
+   "config": {
+    "path": "configs/v3/graph.json",
+    "sidecar_config_sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "99160566b9cd5c75cf3eb9172ba55968fd856254",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/graph_edge_v3.csv",
+   "sha256": "ff02f329034a07730940761217ea0fc0f8a633aae9b8cbc497b6fedbfd10f454",
+   "bytes": 644207,
+   "role": "descriptive_mixed",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056",
+   "sidecar": {
+    "path": "features/v3/graph_edge_v3.meta.json",
+    "sha256": "f93596e9eeb86b08bc06cf33439f1e7d47e69c8c50e7ef00bd486a47b82e4247",
+    "bytes": 29329
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/graph.config.json",
+    "sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "bytes": 5436
+   },
+   "config": {
+    "path": "configs/v3/graph.json",
+    "sidecar_config_sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "99160566b9cd5c75cf3eb9172ba55968fd856254",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/graph_network_v3.csv",
+   "sha256": "99eda502a83ea8f6c65799397bba0e04940d47c7a492b7cc744bff9abfd47269",
+   "bytes": 145347,
+   "role": "descriptive_mixed",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056",
+   "sidecar": {
+    "path": "features/v3/graph_network_v3.meta.json",
+    "sha256": "e72abd2c370837d03b92ea4bbfaf9fe98cd6e7f5358c30d55c77d2eadf3c7695",
+    "bytes": 7952
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/graph.config.json",
+    "sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "bytes": 5436
+   },
+   "config": {
+    "path": "configs/v3/graph.json",
+    "sidecar_config_sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "99160566b9cd5c75cf3eb9172ba55968fd856254",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/graph_region_v3.csv",
+   "sha256": "0e9513cfa2720c77c8f29b559cc29fc3a9b86f4117a048dccfbb2c57e1dab541",
+   "bytes": 175031,
+   "role": "descriptive_S11",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056",
+   "sidecar": {
+    "path": "features/v3/graph_region_v3.meta.json",
+    "sha256": "dd905f83cb1fc9b3ed8eb2784803e022553bb6284bb3ec3728335c253eaaabe1",
+    "bytes": 10762
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/graph.config.json",
+    "sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "bytes": 5436
+   },
+   "config": {
+    "path": "configs/v3/graph.json",
+    "sidecar_config_sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "99160566b9cd5c75cf3eb9172ba55968fd856254",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/relational_abnormality_v3.csv",
+   "sha256": "fd86fd7922417f790fc8be1fb9ffa0df6e5f1b50570891d71237aee2aa5d8d5c",
+   "bytes": 142377,
+   "role": "noise_inflated_not_tested",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056",
+   "sidecar": {
+    "path": "features/v3/relational_abnormality_v3.meta.json",
+    "sha256": "2e5a3f48c484e86708811b3a0bfebf0b42fa9c596308d9f73363fcf0550b6bdc",
+    "bytes": 9913
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/abnormality.config.json",
+    "sha256": "b48150c0847595d5d8f3f86b94e68755fc954b2a06e7f309b9f4989a5ee1995d",
+    "bytes": 1953
+   },
+   "config": {
+    "path": "configs/v3/abnormality.json",
+    "sidecar_config_sha256": "b48150c0847595d5d8f3f86b94e68755fc954b2a06e7f309b9f4989a5ee1995d",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "99160566b9cd5c75cf3eb9172ba55968fd856254",
+     "dirty": false
+    }
+   }
+  },
+  {
+   "path": "features/v3/abnormality_crosshalf_v3.csv",
+   "sha256": "319878e11299768b6222b649498a8467ed2e1a5df3b0a0b9acec9454867a24c0",
+   "bytes": 157184,
+   "role": "registry_input",
+   "source_zip": "v3_outputs_small (5).zip",
+   "kaggle_commit": "a8acc35",
+   "sidecar": {
+    "path": "features/v3/abnormality_crosshalf_v3.meta.json",
+    "sha256": "32d4b9bc112b87c0dd3e767ab7b820c68b43f4546cc8f08d407b6cd98333a632",
+    "bytes": 14414
+   },
+   "table_sha_matches_sidecar": true,
+   "config_copy": {
+    "path": "features/v3/crosshalf.config.json",
+    "sha256": "f7b2dd5f60655a78ecf5b2da573a3c3e71d058fea0a9ecc4dd075d8212df0748",
+    "bytes": 4045
+   },
+   "config": {
+    "path": "configs/v3/crosshalf.json",
+    "sidecar_config_sha256": "f7b2dd5f60655a78ecf5b2da573a3c3e71d058fea0a9ecc4dd075d8212df0748",
+    "copy_matches": true,
+    "committed_at_kaggle_commit_matches": true,
+    "git": {
+     "commit": "a8acc35e834cb83f4bd4f1e39ad7dde3c0c66fcf",
+     "dirty": false
+    }
+   }
+  }
+ ],
+ "qc_files": [
+  {
+   "path": "features/v3/qc/preprocess_log_v3.csv",
+   "sha256": "888ecf14e500e9dc2201998cbbd3651cd3120c8af25d628e54d47060942362c2",
+   "bytes": 11646,
+   "from": "results/v3/step2/preprocess_log.csv",
+   "source_zip": "v3_outputs_small.zip",
+   "kaggle_commit": "2f28f05"
+  },
+  {
+   "path": "features/v3/qc/preprocess_summary_v3.json",
+   "sha256": "1649f3e04e245b3e2c6c937b16f77c7dbfcd58c5e7ede5876ce30ce9842bfead",
+   "bytes": 4633,
+   "from": "results/v3/step2/preprocess_summary.json",
+   "source_zip": "v3_outputs_small.zip",
+   "kaggle_commit": "2f28f05"
+  },
+  {
+   "path": "features/v3/qc/spectral_v3b_qc.csv",
+   "sha256": "277ea7ed388e0b7aeaba4d2edf726a1bb5a5159f4072b6e88d6e2c09ae1e5fca",
+   "bytes": 8770,
+   "from": "results/v3/step3b/spectral_qc.csv",
+   "source_zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47"
+  },
+  {
+   "path": "features/v3/qc/spectral_v3b_summary.json",
+   "sha256": "5581cdc4a9604c6bb2f4ec85bcb174877ed5c139bb886f048287acc9e8704869",
+   "bytes": 3932,
+   "from": "results/v3/step3b/spectral_summary.json",
+   "source_zip": "v3_outputs_small (2).zip",
+   "kaggle_commit": "9346c47"
+  },
+  {
+   "path": "features/v3/qc/connectivity_edge_flags_v3.csv",
+   "sha256": "0e264bd226594627bae5d5312880c32eb56d47541161b13812a3631b2567df97",
+   "bytes": 279497,
+   "from": "results/v3/step4/connectivity_edge_flags.csv",
+   "source_zip": "v3_outputs_small (3).zip",
+   "kaggle_commit": "7f04d84"
+  },
+  {
+   "path": "features/v3/qc/connectivity_qc_v3.csv",
+   "sha256": "9c4fdca202f9ad0677f64920db254d80edf2dbcff1f87128b411e0ce0e20cddc",
+   "bytes": 8053,
+   "from": "results/v3/step4/connectivity_qc.csv",
+   "source_zip": "v3_outputs_small (3).zip",
+   "kaggle_commit": "7f04d84"
+  },
+  {
+   "path": "features/v3/qc/connectivity_summary_v3.json",
+   "sha256": "181ff5eaac9d69723c8ac2184d0c4ca7344a9a066acb629dcc880e5d5bd93b25",
+   "bytes": 6061,
+   "from": "results/v3/step4/connectivity_summary.json",
+   "source_zip": "v3_outputs_small (3).zip",
+   "kaggle_commit": "7f04d84"
+  },
+  {
+   "path": "features/v3/qc/graph_qc_v3.csv",
+   "sha256": "a532ddebf0a20b39cd18611b5e5d8b17819ed18a7009962bf5a2e7efb79ca389",
+   "bytes": 6631,
+   "from": "results/v3/step5/graph_qc.csv",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056"
+  },
+  {
+   "path": "features/v3/qc/graph_summary_v3.json",
+   "sha256": "9b810c5a8fda6d1fa6bcd45c600bcb296bd08d423703d9351e285a417f22037b",
+   "bytes": 4078,
+   "from": "results/v3/step5/graph_summary.json",
+   "source_zip": "v3_outputs_small (4).zip",
+   "kaggle_commit": "9916056"
+  },
+  {
+   "path": "features/v3/qc/crosshalf_qc_v3.csv",
+   "sha256": "1543de14a17dd356da309f9b2d22b8d81f9683ff438bda096b59d71663b4ce91",
+   "bytes": 1067,
+   "from": "results/v3/step7b/crosshalf_qc.csv",
+   "source_zip": "v3_outputs_small (5).zip",
+   "kaggle_commit": "a8acc35"
+  },
+  {
+   "path": "features/v3/qc/crosshalf_summary_v3.json",
+   "sha256": "30c7027827f41341b089a819dcac5ce36f6779094737714504c732c1efe89fbe",
+   "bytes": 8265,
+   "from": "results/v3/step7b/crosshalf_summary.json",
+   "source_zip": "v3_outputs_small (5).zip",
+   "kaggle_commit": "a8acc35"
+  }
+ ],
+ "registry_inputs": [
+  "features/v3/spectral_v3b.csv",
+  "features/v3/spectral_lesion_v3b.csv",
+  "features/v3/abnormality_crosshalf_v3.csv"
+ ],
+ "noise_inflated_not_tested": [
+  "features/v3/spectral_v3.csv",
+  "features/v3/spectral_lesion_v3.csv",
+  "features/v3/relational_abnormality_v3.csv"
+ ],
+ "label_file": {
+  "path": "features/v2/subject_meta.csv",
+  "sha256": "951ee16bb07095bfdcb448952a02731bbc8f0015fe02c937ec8c6e1f6eed7f68",
+  "note": "hashed only; read solely by run_registry_v3.py after features-v3 and registry-v3 tags"
+ },
+ "verification": "every table sha256 equals its sidecar; sidecar config hash equals the shipped config copy and the committed config at the Kaggle commit; all Kaggle runs clean (dirty=false); subject_meta_v3 equals the committed file"
+}

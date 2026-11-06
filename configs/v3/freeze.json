@@ -1,0 +1,41 @@
+{
+  "purpose": "Freeze the Kaggle-produced v3 feature tables into features/v3 with a sha256 manifest (tag features-v3).",
+  "sources": {
+    "step2": {"zip": "v3_outputs_small.zip", "kaggle_commit": "2f28f05", "steps": "0-2 final"},
+    "step3": {"zip": "v3_outputs_small (2).zip", "kaggle_commit": "9346c47", "steps": "3 and 3b"},
+    "step4": {"zip": "v3_outputs_small (3).zip", "kaggle_commit": "7f04d84", "steps": "4"},
+    "step5_7": {"zip": "v3_outputs_small (4).zip", "kaggle_commit": "9916056", "steps": "5-7 (Step 4 re-run byte-identical)"},
+    "step7b": {"zip": "v3_outputs_small (5).zip", "kaggle_commit": "a8acc35", "steps": "7b"}
+  },
+  "files": [
+    {"source": "step2", "member": "features/v3/epoch_qc_v3.csv", "role": "cohort_qc"},
+    {"source": "step2", "member": "features/v3/subject_meta_v3.csv", "role": "cohort_meta", "must_equal_committed": true},
+    {"source": "step3", "member": "features/v3/spectral_v3.csv", "role": "noise_inflated_not_tested", "sidecar": "features/v3/spectral_v3.meta.json", "config_copy": "features/v3/spectral.config.json", "config": "configs/v3/spectral.json"},
+    {"source": "step3", "member": "features/v3/spectral_lesion_v3.csv", "role": "noise_inflated_not_tested", "sidecar": "features/v3/spectral_lesion_v3.meta.json", "config_copy": "features/v3/spectral.config.json", "config": "configs/v3/spectral.json"},
+    {"source": "step3", "member": "features/v3/spectral_v3b.csv", "role": "registry_input", "sidecar": "features/v3/spectral_v3b.meta.json", "config_copy": "features/v3/spectral_v3b.config.json", "config": "configs/v3/spectral_v3b.json"},
+    {"source": "step3", "member": "features/v3/spectral_lesion_v3b.csv", "role": "registry_input", "sidecar": "features/v3/spectral_lesion_v3b.meta.json", "config_copy": "features/v3/spectral_v3b.config.json", "config": "configs/v3/spectral_v3b.json"},
+    {"source": "step4", "member": "features/v3/connectivity_core_v3.csv", "role": "intermediate", "sidecar": "features/v3/connectivity_core_v3.meta.json", "config_copy": "features/v3/connectivity.config.json", "config": "configs/v3/connectivity.json"},
+    {"source": "step4", "member": "features/v3/connectivity_ext_v3.csv", "role": "intermediate", "sidecar": "features/v3/connectivity_ext_v3.meta.json", "config_copy": "features/v3/connectivity.config.json", "config": "configs/v3/connectivity.json"},
+    {"source": "step5_7", "member": "features/v3/graph_node_v3.csv", "role": "descriptive_mixed", "sidecar": "features/v3/graph_node_v3.meta.json", "config_copy": "features/v3/graph.config.json", "config": "configs/v3/graph.json"},
+    {"source": "step5_7", "member": "features/v3/graph_edge_v3.csv", "role": "descriptive_mixed", "sidecar": "features/v3/graph_edge_v3.meta.json", "config_copy": "features/v3/graph.config.json", "config": "configs/v3/graph.json"},
+    {"source": "step5_7", "member": "features/v3/graph_network_v3.csv", "role": "descriptive_mixed", "sidecar": "features/v3/graph_network_v3.meta.json", "config_copy": "features/v3/graph.config.json", "config": "configs/v3/graph.json"},
+    {"source": "step5_7", "member": "features/v3/graph_region_v3.csv", "role": "descriptive_S11", "sidecar": "features/v3/graph_region_v3.meta.json", "config_copy": "features/v3/graph.config.json", "config": "configs/v3/graph.json"},
+    {"source": "step5_7", "member": "features/v3/relational_abnormality_v3.csv", "role": "noise_inflated_not_tested", "sidecar": "features/v3/relational_abnormality_v3.meta.json", "config_copy": "features/v3/abnormality.config.json", "config": "configs/v3/abnormality.json"},
+    {"source": "step7b", "member": "features/v3/abnormality_crosshalf_v3.csv", "role": "registry_input", "sidecar": "features/v3/abnormality_crosshalf_v3.meta.json", "config_copy": "features/v3/crosshalf.config.json", "config": "configs/v3/crosshalf.json"}
+  ],
+  "qc_files": [
+    {"source": "step2", "member": "results/v3/step2/preprocess_log.csv", "to": "features/v3/qc/preprocess_log_v3.csv"},
+    {"source": "step2", "member": "results/v3/step2/preprocess_summary.json", "to": "features/v3/qc/preprocess_summary_v3.json"},
+    {"source": "step3", "member": "results/v3/step3b/spectral_qc.csv", "to": "features/v3/qc/spectral_v3b_qc.csv"},
+    {"source": "step3", "member": "results/v3/step3b/spectral_summary.json", "to": "features/v3/qc/spectral_v3b_summary.json"},
+    {"source": "step4", "member": "results/v3/step4/connectivity_edge_flags.csv", "to": "features/v3/qc/connectivity_edge_flags_v3.csv"},
+    {"source": "step4", "member": "results/v3/step4/connectivity_qc.csv", "to": "features/v3/qc/connectivity_qc_v3.csv"},
+    {"source": "step4", "member": "results/v3/step4/connectivity_summary.json", "to": "features/v3/qc/connectivity_summary_v3.json"},
+    {"source": "step5_7", "member": "results/v3/step5/graph_qc.csv", "to": "features/v3/qc/graph_qc_v3.csv"},
+    {"source": "step5_7", "member": "results/v3/step5/graph_summary.json", "to": "features/v3/qc/graph_summary_v3.json"},
+    {"source": "step7b", "member": "results/v3/step7b/crosshalf_qc.csv", "to": "features/v3/qc/crosshalf_qc_v3.csv"},
+    {"source": "step7b", "member": "results/v3/step7b/crosshalf_summary.json", "to": "features/v3/qc/crosshalf_summary_v3.json"}
+  ],
+  "label_file_reference": "features/v2/subject_meta.csv",
+  "manifest": "features/v3/MANIFEST.json"
+}

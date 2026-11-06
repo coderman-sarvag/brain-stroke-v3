@@ -1,0 +1,211 @@
+{
+  "provenance": {
+    "date_utc": "2026-11-06T14:30:15.336472+00:00",
+    "git": {
+      "commit": "a8acc35e834cb83f4bd4f1e39ad7dde3c0c66fcf",
+      "dirty": false
+    },
+    "config": "configs/v3/crosshalf.json",
+    "config_sha256": "f7b2dd5f60655a78ecf5b2da573a3c3e71d058fea0a9ecc4dd075d8212df0748",
+    "sources_sha256": {
+      "src/crosshalf_v3.py": "eb117222f5dcba50c7a14f8596228949e7f71de5335178f6b93d3b171f11a37f"
+    },
+    "roots": {
+      "data_root": "/kaggle/working/data",
+      "out_root": "/kaggle/working/v3_out",
+      "prev_root": "/kaggle/input/notebooks/sarvagyajainhello/brain-stroke-v3-step2-final/v3_out"
+    }
+  },
+  "summary": {
+    "n_subjects_ok": 45,
+    "failed_subjects": [],
+    "n_columns": 162,
+    "n_lesion_aligned": 38,
+    "half_epochs": {
+      "min": 12,
+      "median": 18.0,
+      "max": 20
+    },
+    "n_nonfinite_half_values_total": 0,
+    "seconds_per_subject_median": 8.1,
+    "D2": {
+      "core_delta_D2_edge": {
+        "median": 0.0024206380737975598,
+        "q1": -0.00017762889485862268,
+        "q3": 0.01308976762565126,
+        "share_gt_0": 0.7111111111111111,
+        "naive_median": 0.009492852333687372,
+        "median_ratio_cross_to_naive": 0.33343610023953923,
+        "spearman_cross_vs_naive": 0.885375494071146,
+        "rho_n_segments": -0.01636983842597686,
+        "rho_n_segments_naive": -0.20220395561803806
+      },
+      "core_delta_D2_node": {
+        "median": 0.007491664115536591,
+        "q1": -0.0034496315567329556,
+        "q3": 0.04696978291961419,
+        "share_gt_0": 0.6,
+        "naive_median": 0.021901913150877955,
+        "median_ratio_cross_to_naive": 0.32725802372577245,
+        "spearman_cross_vs_naive": 0.7886693017127799,
+        "rho_n_segments": -0.03585458537835417,
+        "rho_n_segments_naive": -0.19822747664816515
+      },
+      "core_theta_D2_edge": {
+        "median": 0.0009087854225434495,
+        "q1": -0.00015529539886983577,
+        "q3": 0.0021056213914033696,
+        "share_gt_0": 0.6888888888888889,
+        "naive_median": 0.0026496737991404348,
+        "median_ratio_cross_to_naive": 0.28849875403384323,
+        "spearman_cross_vs_naive": 0.8529644268774703,
+        "rho_n_segments": -0.09152529095657506,
+        "rho_n_segments_naive": -0.03300477544994525
+      },
+      "core_theta_D2_node": {
+        "median": 0.0018660282860210472,
+        "q1": -0.0014310452576360463,
+        "q3": 0.0070397050170385445,
+        "share_gt_0": 0.6222222222222222,
+        "naive_median": 0.009294340933704424,
+        "median_ratio_cross_to_naive": 0.2567644616391128,
+        "spearman_cross_vs_naive": 0.8154150197628457,
+        "rho_n_segments": -0.0774750652630241,
+        "rho_n_segments_naive": -0.08483155135728898
+      },
+      "core_alpha_D2_edge": {
+        "median": 0.0017417618872705566,
+        "q1": 0.00039321000256246317,
+        "q3": 0.005651503276551224,
+        "share_gt_0": 0.8222222222222222,
+        "naive_median": 0.006483465953765494,
+        "median_ratio_cross_to_naive": 0.4873902794311441,
+        "spearman_cross_vs_naive": 0.8857707509881423,
+        "rho_n_segments": -0.4880465189024032,
+        "rho_n_segments_naive": -0.42415775678644496
+      },
+      "core_alpha_D2_node": {
+        "median": 0.0036746235228551924,
+        "q1": -0.0003346740008962599,
+        "q3": 0.027657674865778397,
+        "share_gt_0": 0.7333333333333333,
+        "naive_median": 0.016169684436930943,
+        "median_ratio_cross_to_naive": 0.4406950694952668,
+        "spearman_cross_vs_naive": 0.8325428194993413,
+        "rho_n_segments": -0.3413807195635903,
+        "rho_n_segments_naive": -0.37697020634395295
+      },
+      "core_beta_D2_edge": {
+        "median": 0.00023370710031523555,
+        "q1": -2.0304410663428482e-05,
+        "q3": 0.000976496912077272,
+        "share_gt_0": 0.7111111111111111,
+        "naive_median": 0.0006551199363372988,
+        "median_ratio_cross_to_naive": 0.3291457379414768,
+        "spearman_cross_vs_naive": 0.8629776021080369,
+        "rho_n_segments": 0.03525811353287323,
+        "rho_n_segments_naive": -0.05924953665110653
+      },
+      "core_beta_D2_node": {
+        "median": 0.0014140330259819148,
+        "q1": -0.0001408119502608241,
+        "q3": 0.004292969509670809,
+        "share_gt_0": 0.6666666666666666,
+        "naive_median": 0.0027418660850857726,
+        "median_ratio_cross_to_naive": 0.4115195280747029,
+        "spearman_cross_vs_naive": 0.8960474308300393,
+        "rho_n_segments": 0.024786718912207878,
+        "rho_n_segments_naive": -0.008681979084222545
+      },
+      "extended_delta_D2_edge": {
+        "median": 0.008110015747807082,
+        "q1": 0.002718884902999669,
+        "q3": 0.014988642604898109,
+        "share_gt_0": 0.9555555555555556,
+        "naive_median": 0.016253624778073853,
+        "median_ratio_cross_to_naive": 0.5559708690994378,
+        "spearman_cross_vs_naive": 0.970619235836627,
+        "rho_n_segments": -0.2786849011385939,
+        "rho_n_segments_naive": -0.3136779160734756
+      },
+      "extended_delta_D2_node": {
+        "median": 0.2779255851016134,
+        "q1": 0.04114603890655215,
+        "q3": 0.5778048522325925,
+        "share_gt_0": 0.9111111111111111,
+        "naive_median": 0.4349772361705715,
+        "median_ratio_cross_to_naive": 0.6183939804250169,
+        "spearman_cross_vs_naive": 0.9700922266139657,
+        "rho_n_segments": -0.2075722022273665,
+        "rho_n_segments_naive": -0.2911445352441957
+      },
+      "extended_theta_D2_edge": {
+        "median": 0.001430517104706971,
+        "q1": 0.0007552568727229932,
+        "q3": 0.003351138491199064,
+        "share_gt_0": 0.9555555555555556,
+        "naive_median": 0.004373884587927078,
+        "median_ratio_cross_to_naive": 0.41013175286326603,
+        "spearman_cross_vs_naive": 0.9441370223978919,
+        "rho_n_segments": 0.21572398411560598,
+        "rho_n_segments_naive": 0.06388876211595827
+      },
+      "extended_theta_D2_node": {
+        "median": 0.023482002630628017,
+        "q1": 0.008298985333730103,
+        "q3": 0.0809329772426215,
+        "share_gt_0": 0.8222222222222222,
+        "naive_median": 0.08193990634896987,
+        "median_ratio_cross_to_naive": 0.3199865341382874,
+        "spearman_cross_vs_naive": 0.7818181818181817,
+        "rho_n_segments": 0.22632792803526708,
+        "rho_n_segments_naive": -0.028034176737604093
+      },
+      "extended_alpha_D2_edge": {
+        "median": 0.0028066277155427105,
+        "q1": 0.0008585497751818671,
+        "q3": 0.012087657738040516,
+        "share_gt_0": 0.9555555555555556,
+        "naive_median": 0.0061407646651541635,
+        "median_ratio_cross_to_naive": 0.42904992364700295,
+        "spearman_cross_vs_naive": 0.9496706192358365,
+        "rho_n_segments": -0.2538319075768881,
+        "rho_n_segments_naive": -0.3257399022820901
+      },
+      "extended_alpha_D2_node": {
+        "median": 0.09745020841957663,
+        "q1": 0.012085389081874374,
+        "q3": 0.3729529385625106,
+        "share_gt_0": 0.8666666666666667,
+        "naive_median": 0.16647884409310304,
+        "median_ratio_cross_to_naive": 0.44830205617146157,
+        "spearman_cross_vs_naive": 0.9374176548089591,
+        "rho_n_segments": -0.24289659040973763,
+        "rho_n_segments_naive": -0.3032727961023081
+      },
+      "extended_beta_D2_edge": {
+        "median": 0.0007682125670875598,
+        "q1": 0.00028489858394974734,
+        "q3": 0.0017200953374482172,
+        "share_gt_0": 0.9777777777777777,
+        "naive_median": 0.001591726639790042,
+        "median_ratio_cross_to_naive": 0.5312453636728228,
+        "spearman_cross_vs_naive": 0.9574440052700921,
+        "rho_n_segments": -0.12068613673564317,
+        "rho_n_segments_naive": -0.18444234955260566
+      },
+      "extended_beta_D2_node": {
+        "median": 0.015821563318075473,
+        "q1": 0.003948904723367023,
+        "q3": 0.0583972570061065,
+        "share_gt_0": 0.8444444444444444,
+        "naive_median": 0.030693161271407553,
+        "median_ratio_cross_to_naive": 0.5342829629800142,
+        "spearman_cross_vs_naive": 0.8774703557312252,
+        "rho_n_segments": -0.05792404366114889,
+        "rho_n_segments_naive": -0.12022221418915797
+      }
+    },
+    "no_outcome_read": true
+  }
+}

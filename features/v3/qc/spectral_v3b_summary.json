@@ -1,0 +1,200 @@
+{
+  "provenance": {
+    "date_utc": "2026-11-06T13:02:24.739717+00:00",
+    "git": {
+      "commit": "9346c473f2f6ab32ae85cdda6a0fc7439d828844",
+      "dirty": false
+    },
+    "config": "configs/v3/spectral_v3b.json",
+    "config_sha256": "5a1adff3c991ddd448b9ae97c87def92f147c5ed72d9fc42b7731fc3c406fa86",
+    "sources_sha256": {
+      "src/spectral_v3.py": "4f55e5872d1f3681f8989634fb0ea94c1977bcc0107c2861cfff2333c9b54b39"
+    },
+    "roots": {
+      "data_root": "/kaggle/working/data",
+      "out_root": "/kaggle/working/v3_out",
+      "prev_root": "/kaggle/input/notebooks/sarvagyajainhello/brain-stroke-v3-step2-final/v3_out"
+    }
+  },
+  "summary": {
+    "config": "configs/v3/spectral_v3b.json",
+    "aggregation_method": "subsampled_average_spectrum",
+    "subsample": {
+      "n_per_class": 10,
+      "n_draws": 100,
+      "replace": false,
+      "seed_base": 42,
+      "seed_rule": "seed = 42 + zero-based subject index in the Figshare numbering (sub-01 -> 42, sub-50 -> 91); one numpy default_rng per subject, draws taken class by class (left_hand, then right_hand)",
+      "summary": "median over draws"
+    },
+    "pdBSI_range": {
+      "min": 0.14909507954553847,
+      "median": 0.22167135332186025,
+      "max": 0.4790757198634232
+    },
+    "n_subjects": 45,
+    "n_lesion_rows": 38,
+    "lesion_rows_excluded_uncertain_side": [
+      "sub-03",
+      "sub-20",
+      "sub-21",
+      "sub-33",
+      "sub-35",
+      "sub-38",
+      "sub-48"
+    ],
+    "bins_per_band": {
+      "delta": 12,
+      "theta": 16,
+      "alpha": 20,
+      "beta": 68
+    },
+    "bins_identical_all_subjects": true,
+    "n_feature_columns": 139,
+    "n_lesion_columns": 92,
+    "all_non_nan_finite": true,
+    "nan_pairs": [
+      [
+        "sub-13",
+        "O1O2"
+      ],
+      [
+        "sub-29",
+        "T7T8"
+      ],
+      [
+        "sub-30",
+        "T7T8"
+      ],
+      [
+        "sub-31",
+        "C3C4"
+      ]
+    ],
+    "unexpected_nan": [],
+    "subjects_pairs_one_interpolated": [
+      [
+        "sub-02",
+        "FT7FT8;P3P4"
+      ],
+      [
+        "sub-03",
+        "FC3FC4;O1O2"
+      ],
+      [
+        "sub-07",
+        "FT7FT8"
+      ],
+      [
+        "sub-08",
+        "F7F8;T7T8"
+      ],
+      [
+        "sub-10",
+        "P7P8"
+      ],
+      [
+        "sub-12",
+        "C3C4;CP3CP4;TP7TP8"
+      ],
+      [
+        "sub-13",
+        "CP3CP4"
+      ],
+      [
+        "sub-14",
+        "F7F8"
+      ],
+      [
+        "sub-16",
+        "CP3CP4"
+      ],
+      [
+        "sub-18",
+        "F7F8"
+      ],
+      [
+        "sub-19",
+        "F7F8;FT7FT8"
+      ],
+      [
+        "sub-21",
+        "FC3FC4"
+      ],
+      [
+        "sub-22",
+        "F7F8"
+      ],
+      [
+        "sub-24",
+        "P7P8;O1O2"
+      ],
+      [
+        "sub-26",
+        "F7F8"
+      ],
+      [
+        "sub-28",
+        "F3F4;FT7FT8;TP7TP8"
+      ],
+      [
+        "sub-29",
+        "CP3CP4"
+      ],
+      [
+        "sub-30",
+        "FT7FT8;TP7TP8"
+      ],
+      [
+        "sub-32",
+        "F3F4;C3C4;P3P4"
+      ],
+      [
+        "sub-33",
+        "F3F4"
+      ],
+      [
+        "sub-35",
+        "F7F8"
+      ],
+      [
+        "sub-36",
+        "T7T8;TP7TP8"
+      ],
+      [
+        "sub-38",
+        "F3F4;FT7FT8;C3C4;T7T8"
+      ],
+      [
+        "sub-39",
+        "TP7TP8;P3P4"
+      ],
+      [
+        "sub-45",
+        "FT7FT8"
+      ],
+      [
+        "sub-50",
+        "C3C4"
+      ]
+    ],
+    "unavailable_cross_check_ok": true,
+    "epoch_count_correlation": {
+      "rho_n_epochs": {
+        "median_abs": 0.10378610111368325,
+        "max_abs": 0.5108449983296746,
+        "feature_max": "DAR",
+        "n_abs_ge_0.3": 5,
+        "n_features": 139
+      },
+      "rho_n_min_class": {
+        "median_abs": 0.1053373718233145,
+        "max_abs": 0.49400252358486957,
+        "feature_max": "DAR",
+        "n_abs_ge_0.3": 7,
+        "n_features": 139
+      }
+    },
+    "no_labels_read": true
+  }
+}

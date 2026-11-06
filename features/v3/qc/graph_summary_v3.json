@@ -1,0 +1,245 @@
+{
+  "provenance": {
+    "date_utc": "2026-11-06T13:54:34.522660+00:00",
+    "git": {
+      "commit": "99160566b9cd5c75cf3eb9172ba55968fd856254",
+      "dirty": false
+    },
+    "config": "configs/v3/graph.json",
+    "config_sha256": "f5a65789755881780ad02f8f611ab30c2172726b2770fa1f14e9dea329357989",
+    "sources_sha256": {
+      "src/graph_v3.py": "4f30c020eaec57f83ea233048f8545bde00afc7405c3824db46ff3462ac862cc"
+    },
+    "roots": {
+      "data_root": "/kaggle/working/data",
+      "out_root": "/kaggle/working/v3_out",
+      "prev_root": "/kaggle/working/v3_out"
+    }
+  },
+  "summary": {
+    "n_subjects": 45,
+    "n_lesion_aligned": 38,
+    "uncertain_side_subjects": [
+      "sub-03",
+      "sub-20",
+      "sub-21",
+      "sub-33",
+      "sub-35",
+      "sub-38",
+      "sub-48"
+    ],
+    "pairs_dropped": {
+      "core": [
+        [
+          "sub-13",
+          "O1O2"
+        ],
+        [
+          "sub-31",
+          "C3C4"
+        ]
+      ],
+      "extended": [
+        [
+          "sub-13",
+          "O1O2"
+        ],
+        [
+          "sub-29",
+          "T7T8"
+        ],
+        [
+          "sub-30",
+          "T7T8"
+        ],
+        [
+          "sub-31",
+          "C3C4"
+        ]
+      ]
+    },
+    "edges_masked": {
+      "core_delta_edges_masked": [
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          1
+        ]
+      ],
+      "core_theta_edges_masked": [
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          1
+        ]
+      ],
+      "core_alpha_edges_masked": [
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          1
+        ]
+      ],
+      "core_beta_edges_masked": [
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          1
+        ]
+      ],
+      "extended_delta_edges_masked": [
+        [
+          "sub-08",
+          1
+        ],
+        [
+          "sub-12",
+          1
+        ],
+        [
+          "sub-19",
+          1
+        ],
+        [
+          "sub-24",
+          1
+        ],
+        [
+          "sub-28",
+          1
+        ],
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          3
+        ]
+      ],
+      "extended_theta_edges_masked": [
+        [
+          "sub-08",
+          1
+        ],
+        [
+          "sub-12",
+          1
+        ],
+        [
+          "sub-19",
+          1
+        ],
+        [
+          "sub-24",
+          1
+        ],
+        [
+          "sub-28",
+          1
+        ],
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          3
+        ]
+      ],
+      "extended_alpha_edges_masked": [
+        [
+          "sub-08",
+          1
+        ],
+        [
+          "sub-12",
+          1
+        ],
+        [
+          "sub-19",
+          1
+        ],
+        [
+          "sub-24",
+          1
+        ],
+        [
+          "sub-28",
+          1
+        ],
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          3
+        ]
+      ],
+      "extended_beta_edges_masked": [
+        [
+          "sub-08",
+          1
+        ],
+        [
+          "sub-12",
+          1
+        ],
+        [
+          "sub-19",
+          1
+        ],
+        [
+          "sub-24",
+          1
+        ],
+        [
+          "sub-28",
+          1
+        ],
+        [
+          "sub-32",
+          1
+        ],
+        [
+          "sub-38",
+          3
+        ]
+      ]
+    },
+    "negative_fraction_median": {
+      "core_delta": 0.1875,
+      "core_theta": 0.1875,
+      "core_alpha": 0.1875,
+      "core_beta": 0.1875,
+      "extended_delta": 0.17647058823529413,
+      "extended_theta": 0.24793388429752067,
+      "extended_alpha": 0.23140495867768596,
+      "extended_beta": 0.18181818181818182
+    },
+    "subjects_with_flagged_edges_used": {
+      "core": 10,
+      "extended": 26
+    },
+    "n_columns": {
+      "node": 540,
+      "edge": 792,
+      "network": 168,
+      "region": 200
+    },
+    "no_outcome_read": true
+  }
+}

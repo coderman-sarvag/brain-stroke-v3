@@ -1,0 +1,233 @@
+{
+  "provenance": {
+    "date_utc": "2026-11-06T12:11:44.968490+00:00",
+    "git": {
+      "commit": "2f28f050795674a4c0e22c7548386d5149b5e946",
+      "dirty": false
+    },
+    "config": "configs/v3/preprocess.json",
+    "config_sha256": "dfab3c5c846aff64671bf65ebe9d47868bf25bc7127bd4faab036234aa0220bd",
+    "sources_sha256": {
+      "src/preprocess_v3.py": "4e85b9c032633203a3c09943523fd53bcf5e74b12dc00aa04a96f1a7770c48ad"
+    },
+    "roots": {
+      "data_root": "/kaggle/working/data",
+      "out_root": "/kaggle/working/v3_out",
+      "prev_root": "/kaggle/working/v3_out"
+    }
+  },
+  "summary": {
+    "mode": "final",
+    "screen_rule": "analysed_after_marking",
+    "min_epochs_per_class": 10,
+    "n_subjects_ok": 48,
+    "n_included": 45,
+    "excluded": [
+      [
+        "sub-06",
+        "min_epochs_per_class"
+      ],
+      [
+        "sub-27",
+        "min_epochs_per_class"
+      ],
+      [
+        "sub-40",
+        "min_epochs_per_class"
+      ]
+    ],
+    "failed_subjects": [],
+    "epochs_kept_included": {
+      "min": 24.0,
+      "q1": 33.0,
+      "median": 37.0,
+      "q3": 39.0,
+      "max": 40.0,
+      "sorted": [
+        24,
+        25,
+        27,
+        29,
+        29,
+        30,
+        30,
+        30,
+        31,
+        31,
+        32,
+        33,
+        33,
+        33,
+        34,
+        34,
+        35,
+        35,
+        35,
+        36,
+        37,
+        37,
+        37,
+        37,
+        37,
+        38,
+        38,
+        38,
+        38,
+        38,
+        38,
+        39,
+        39,
+        39,
+        39,
+        39,
+        39,
+        39,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    "min_class_included": {
+      "min": 10.0,
+      "q1": 16.0,
+      "median": 18.0,
+      "q3": 19.0,
+      "max": 20.0,
+      "sorted": [
+        10,
+        12,
+        12,
+        13,
+        13,
+        13,
+        14,
+        14,
+        14,
+        15,
+        15,
+        16,
+        16,
+        16,
+        16,
+        16,
+        17,
+        17,
+        17,
+        18,
+        18,
+        18,
+        18,
+        18,
+        18,
+        18,
+        18,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19,
+        19,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    "subjects_with_unavailable_analysed_pairs": [
+      [
+        "sub-06",
+        "O1-O2"
+      ],
+      [
+        "sub-13",
+        "O1-O2"
+      ],
+      [
+        "sub-29",
+        "T7-T8"
+      ],
+      [
+        "sub-30",
+        "T7-T8"
+      ],
+      [
+        "sub-31",
+        "C3-C4"
+      ],
+      [
+        "sub-40",
+        "FT7-FT8"
+      ]
+    ],
+    "heog": {
+      "rho_F3F4_HEOL_delta": {
+        "n": 45,
+        "median_abs_rho_before": 0.28805668016194336,
+        "median_abs_rho_after": 0.1653846153846154,
+        "n_dominated_before": 19,
+        "n_dominated_after": 9
+      },
+      "rho_F3F4_HEOR_delta": {
+        "n": 45,
+        "median_abs_rho_before": 0.29401466243571506,
+        "median_abs_rho_after": 0.1301564722617354,
+        "n_dominated_before": 22,
+        "n_dominated_after": 10
+      },
+      "rho_F7F8_HEOL_delta": {
+        "n": 45,
+        "median_abs_rho_before": 0.19575445891235363,
+        "median_abs_rho_after": 0.1331983805668016,
+        "n_dominated_before": 16,
+        "n_dominated_after": 10
+      },
+      "rho_F7F8_HEOR_delta": {
+        "n": 45,
+        "median_abs_rho_before": 0.25046503993872415,
+        "median_abs_rho_after": 0.18825910931174092,
+        "n_dominated_before": 19,
+        "n_dominated_after": 11
+      },
+      "rho_F3F4_HEOL_broadband": {
+        "n": 45,
+        "median_abs_rho_before": 0.27602639296187675,
+        "median_abs_rho_after": 0.18911819887429648,
+        "n_dominated_before": 20,
+        "n_dominated_after": 10
+      },
+      "rho_F3F4_HEOR_broadband": {
+        "n": 45,
+        "median_abs_rho_before": 0.2825515947467167,
+        "median_abs_rho_after": 0.14407944996180289,
+        "n_dominated_before": 21,
+        "n_dominated_after": 11
+      },
+      "rho_F7F8_HEOL_broadband": {
+        "n": 45,
+        "median_abs_rho_before": 0.21441441441441444,
+        "median_abs_rho_after": 0.15362731152204834,
+        "n_dominated_before": 12,
+        "n_dominated_after": 9
+      },
+      "rho_F7F8_HEOR_broadband": {
+        "n": 45,
+        "median_abs_rho_before": 0.32076813655761016,
+        "median_abs_rho_after": 0.16974416017797553,
+        "n_dominated_before": 23,
+        "n_dominated_after": 10
+      }
+    }
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "provenance": {
+    "date_utc": "2026-11-06T13:23:02.155974+00:00",
+    "git": {
+      "commit": "7f04d842839eaca7d9d57d302dd16649275654c2",
+      "dirty": false
+    },
+    "config": "configs/v3/connectivity.json",
+    "config_sha256": "ea4b38f249a18e1b9f782477be8a4cf77323a417d72c576fc6090541a62faad0",
+    "sources_sha256": {
+      "src/connectivity_v3.py": "95f906df09ac1b461572d542431b95faf0be1c644cfe812c83463b7382552927"
+    },
+    "roots": {
+      "data_root": "/kaggle/working/data",
+      "out_root": "/kaggle/working/v3_out",
+      "prev_root": "/kaggle/input/notebooks/sarvagyajainhello/brain-stroke-v3-step2-final/v3_out"
+    }
+  },
+  "summary": {
+    "n_subjects_ok": 45,
+    "failed_subjects": [],
+    "no_labels_read": true,
+    "bins_per_band": {
+      "delta": 6,
+      "theta": 8,
+      "alpha": 10,
+      "beta": 34
+    },
+    "n_segments": {
+      "min": 48,
+      "median": 74.0,
+      "max": 80
+    },
+    "subjects_with_nan_edges": [
+      [
+        "sub-02",
+        1
+      ],
+      [
+        "sub-03",
+        1
+      ],
+      [
+        "sub-08",
+        1
+      ],
+      [
+        "sub-12",
+        3
+      ],
+      [
+        "sub-13",
+        41
+      ],
+      [
+        "sub-19",
+        1
+      ],
+      [
+        "sub-24",
+        1
+      ],
+      [
+        "sub-28",
+        3
+      ],
+      [
+        "sub-29",
+        41
+      ],
+      [
+        "sub-30",
+        42
+      ],
+      [
+        "sub-31",
+        41
+      ],
+      [
+        "sub-32",
+        3
+      ],
+      [
+        "sub-36",
+        1
+      ],
+      [
+        "sub-38",
+        6
+      ],
+      [
+        "sub-39",
+        1
+      ]
+    ],
+    "n_subjects_with_one_interpolated_edges": 26,
+    "negative_fraction_median": {
+      "ext_delta": 0.17391304347826086,
+      "ext_theta": 0.24675324675324675,
+      "ext_alpha": 0.2077922077922078,
+      "ext_beta": 0.22608695652173913,
+      "core_delta": 0.21428571428571427,
+      "core_theta": 0.21428571428571427,
+      "core_alpha": 0.25,
+      "core_beta": 0.21428571428571427
+    },
+    "negative_fraction_max": {
+      "ext_delta": 0.49783549783549785,
+      "ext_theta": 0.43722943722943725,
+      "ext_alpha": 0.42857142857142855,
+      "ext_beta": 0.5108225108225108,
+      "core_delta": 0.6071428571428571,
+      "core_theta": 0.5333333333333333,
+      "core_alpha": 0.42857142857142855,
+      "core_beta": 0.6071428571428571
+    },
+    "noise_floor": {
+      "ext": {
+        "delta": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.8666666666666667,
+          "frac_subject_pairs_exceeding_p95": 0.4908350305498982,
+          "median_observed_mean_homotopic": 0.07067622828547519,
+          "median_subject_p95_of_mean": 0.01536998494986469
+        },
+        "theta": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.8,
+          "frac_subject_pairs_exceeding_p95": 0.39307535641547864,
+          "median_observed_mean_homotopic": 0.02818407755208697,
+          "median_subject_p95_of_mean": 0.013249492189108387
+        },
+        "alpha": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.7111111111111111,
+          "frac_subject_pairs_exceeding_p95": 0.42362525458248473,
+          "median_observed_mean_homotopic": 0.03244913723577277,
+          "median_subject_p95_of_mean": 0.013621588441802484
+        },
+        "beta": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.7777777777777778,
+          "frac_subject_pairs_exceeding_p95": 0.31771894093686354,
+          "median_observed_mean_homotopic": 0.010749231025250936,
+          "median_subject_p95_of_mean": 0.005972076938760344
+        }
+      },
+      "core": {
+        "delta": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.6888888888888889,
+          "frac_subject_pairs_exceeding_p95": 0.5,
+          "median_observed_mean_homotopic": 0.05293757841953588,
+          "median_subject_p95_of_mean": 0.022207798381786985
+        },
+        "theta": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.7333333333333333,
+          "frac_subject_pairs_exceeding_p95": 0.4550561797752809,
+          "median_observed_mean_homotopic": 0.034919661759700314,
+          "median_subject_p95_of_mean": 0.01706417403173914
+        },
+        "alpha": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.7333333333333333,
+          "frac_subject_pairs_exceeding_p95": 0.42134831460674155,
+          "median_observed_mean_homotopic": 0.034284742580972305,
+          "median_subject_p95_of_mean": 0.01655393334819718
+        },
+        "beta": {
+          "n_subjects": 45,
+          "frac_subjects_mean_homotopic_exceeds_p95": 0.6222222222222222,
+          "frac_subject_pairs_exceeding_p95": 0.29775280898876405,
+          "median_observed_mean_homotopic": 0.012340028740822271,
+          "median_subject_p95_of_mean": 0.008061763877723716
+        }
+      }
+    },
+    "segment_count_correlation": {
+      "core_edges": {
+        "n_features": 112,
+        "median_abs_rho": 0.15894549462148944,
+        "max_abs_rho": 0.5332387041358962,
+        "feature_max": "wpli_delta_C3-F4",
+        "n_abs_ge_0.3": 18
+      },
+      "ext_edges": {
+        "n_features": 924,
+        "median_abs_rho": 0.13789752305206138,
+        "max_abs_rho": 0.6636773129646718,
+        "feature_max": "wpli_delta_C3-FC4",
+        "n_abs_ge_0.3": 145
+      },
+      "homotopic_means": {
+        "homotopic_mean_core_alpha": -0.21347064603267799,
+        "homotopic_mean_core_beta": 0.17231408869449324,
+        "homotopic_mean_core_delta": -0.39744907303879845,
+        "homotopic_mean_core_theta": -0.13692342586262424,
+        "homotopic_mean_ext_alpha": -0.14030343298701622,
+        "homotopic_mean_ext_beta": 0.020147493447356134,
+        "homotopic_mean_ext_delta": -0.49520418104817443,
+        "homotopic_mean_ext_theta": -0.009411000228699248
+      }
+    },
+    "seconds_per_subject_median": 24.1
+  }
+}

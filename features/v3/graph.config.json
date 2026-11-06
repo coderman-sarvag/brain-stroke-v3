@@ -1,0 +1,66 @@
+{
+  "inputs": {
+    "prev_root": "Step 4 outputs (--prev-root)",
+    "connectivity": {"core": "features/v3/connectivity_core_v3.csv", "extended": "features/v3/connectivity_ext_v3.csv"},
+    "edge_flags": "results/v3/step4/connectivity_edge_flags.csv",
+    "meta_root": "Step 1-2 outputs (--meta-root; default = --prev-root)",
+    "epoch_qc": "features/v3/epoch_qc_v3.csv",
+    "epoch_qc_columns": ["subject_id", "include_v3_epochs"],
+    "subject_meta": "features/v3/subject_meta_v3.csv",
+    "subject_meta_columns_lesion_step_only": ["subject_id", "lesion_side_final"]
+  },
+  "bands": ["delta", "theta", "alpha", "beta"],
+  "sets": {
+    "core": {"role": "primary", "left": ["F3", "C3", "P3", "O1"], "right": ["F4", "C4", "P4", "O2"],
+             "channel_order": ["F3", "C3", "P3", "O1", "F4", "C4", "P4", "O2"]},
+    "extended": {"role": "secondary",
+                 "left": ["F3", "F7", "FC3", "FT7", "C3", "T7", "CP3", "TP7", "P3", "P7", "O1"],
+                 "right": ["F4", "F8", "FC4", "FT8", "C4", "T8", "CP4", "TP8", "P4", "P8", "O2"],
+                 "channel_order": ["F3", "F7", "FC3", "FT7", "C3", "T7", "CP3", "TP7", "P3", "P7", "O1",
+                                   "F4", "F8", "FC4", "FT8", "C4", "T8", "CP4", "TP8", "P4", "P8", "O2"]}
+  },
+  "pair_map": "left[i] <-> right[i]; the right-hemisphere matrix is built in pair order, so it is the mirror-aligned right graph.",
+  "clip": "Negative wpli2_debiased values are set to 0 before any graph measure; the fraction of negative available intra-hemispheric and homotopic values is recorded per subject, set and band.",
+  "masking_rule": "Symmetric masking (no imputation): (1) a homologous pair (node) is dropped from BOTH hemispheres when its homotopic edge is NaN or either of its channels has no available intra-hemispheric edge (unavailable channel); (2) among kept nodes, a mirrored intra-hemispheric edge (i, j) is masked in BOTH hemispheres when it is NaN in either hemisphere; masked edges get weight 0 for graph measures, NaN in the edge-difference table, and are excluded from node neighbour counts. Missing data therefore cannot create asymmetry.",
+  "zero_rule": "Normalized difference (a - b) / (a + b) is 0 when a = b = 0 (both absent: no asymmetry); NaN if either is NaN.",
+  "weight_scaling": "For clustering and efficiencies, weights of both hemispheres are divided by one shared constant: the maximum available clipped intra-hemispheric weight over both hemispheres (subject, set, band). Ratios I/C are therefore scale-free and unaffected by the scaling.",
+  "node_metrics": {
+    "strength": "sum of clipped weights to available neighbours",
+    "local_eff": "weighted local efficiency (Rubinov & Sporns 2010): sum over ordered neighbour pairs j != h of (w_ij w_ih / d_jh(N_i))^(1/3) / (k_i (k_i - 1)); N_i = available neighbours, d_jh shortest path within N_i with lengths 1/w; k_i < 2 -> NaN",
+    "clustering": "weighted clustering (Onnela et al. 2005): sum over ordered neighbour pairs of (w_ij w_ih w_jh)^(1/3) / (k_i (k_i - 1)); k_i = number of available neighbours; k_i < 2 -> NaN"
+  },
+  "network_metrics": {
+    "glob_eff": "weighted global efficiency: mean over ordered node pairs of 1 / shortest path length (lengths 1/w)",
+    "mean_clust": "mean of node clustering",
+    "mean_strength": "mean of node strength"
+  },
+  "deformation": {
+    "frob": "normalized Frobenius ||A - B||_F / (||A||_F + ||B||_F) of the masked, clipped hemisphere matrices (0 when both are zero); frame-invariant",
+    "lapdist": "Laplacian spectral distance ||lambda(A) - lambda(B)||_2 / (||lambda(A)||_2 + ||lambda(B)||_2), lambda = sorted eigenvalues of L = D - W (0 when both are zero); frame-invariant",
+    "mwd": "signed mean-weight difference (mean_A - mean_B) / (mean_A + mean_B) over available intra-hemispheric edges",
+    "homo_mean": "mean clipped homotopic weight over kept pairs"
+  },
+  "kinds": {
+    "LR": "signed, absolute left/right frame: (L - R)/(L + R) for normalized differences, w_L - w_R for edges; all subjects",
+    "abs": "|LR| = |IC| (frame-invariant); all subjects",
+    "IC": "signed, lesion-aligned: ipsilesional minus contralesional = LR for a left lesion and -LR for a right lesion; NaN for subjects whose lesion side is uncertain"
+  },
+  "lesion": {"column": "lesion_side_final", "certain_sides": ["left", "right"],
+             "rule": "The only read of lesion side in Steps 5-7; used solely to set the IC sign."},
+  "regions": {
+    "set": "extended",
+    "frontal": ["F3F4", "F7F8"],
+    "central": ["FC3FC4", "C3C4"],
+    "temporal": ["FT7FT8", "T7T8", "TP7TP8"],
+    "parietal": ["CP3CP4", "P3P4", "P7P8"],
+    "occipital": ["O1O2"],
+    "rule": "Fixed before any label is read. Region value = mean over the region's available pairs of the node-level differences (LR, IC: mean of signed values; abs: mean of absolute values) and of the clipped homotopic weights."
+  },
+  "outputs": {
+    "node_csv": "features/v3/graph_node_v3.csv", "node_meta": "features/v3/graph_node_v3.meta.json",
+    "edge_csv": "features/v3/graph_edge_v3.csv", "edge_meta": "features/v3/graph_edge_v3.meta.json",
+    "network_csv": "features/v3/graph_network_v3.csv", "network_meta": "features/v3/graph_network_v3.meta.json",
+    "region_csv": "features/v3/graph_region_v3.csv", "region_meta": "features/v3/graph_region_v3.meta.json",
+    "qc_csv": "results/v3/step5/graph_qc.csv", "summary_json": "results/v3/step5/graph_summary.json"
+  }
+}

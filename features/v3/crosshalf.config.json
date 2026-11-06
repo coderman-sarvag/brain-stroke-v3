@@ -1,0 +1,50 @@
+{
+  "version": "v3 step 7b (deviation D18)",
+  "inputs": {
+    "root": "Step 2 outputs (--prev-root): epochs, epoch_qc, subject_meta",
+    "epochs_dir": "data/processed/figshare_v3",
+    "epoch_template": "{subject}-epo.fif",
+    "epoch_qc": "features/v3/epoch_qc_v3.csv",
+    "epoch_qc_columns": ["subject_id", "include_v3_epochs", "interpolated", "screen_interpolated"],
+    "subject_meta": "features/v3/subject_meta_v3.csv",
+    "subject_meta_columns_lesion_step_only": ["subject_id", "lesion_side_final"]
+  },
+  "reuse": {
+    "connectivity_config": "configs/v3/connectivity.json",
+    "graph_config": "configs/v3/graph.json",
+    "rule": "Estimator (wpli2_debiased, multitaper, bands, 2 s segments), edge NaN rules, sets, pair map, symmetric masking and clipping are taken unchanged from Steps 4-6 (their config hashes are recorded)."
+  },
+  "splits": {
+    "n_splits": 10,
+    "seed_base": 2000,
+    "seed_rule": "one numpy default_rng per subject, seed = 2000 + zero-based Figshare subject index (sub-01 -> 2000); the 10 splits are drawn sequentially from it",
+    "rule": "Split the clean 4 s EPOCHS (not segments: the two 2 s segments of one epoch are correlated) into two halves stratified by class: within each class the epochs are shuffled, the first floor(n/2) go to half 1 and the next floor(n/2) to half 2 (one epoch is left out of that split when n is odd), so both halves have equal size and class composition. Each half is then segmented into 2 s segments and its connectivity recomputed."
+  },
+  "mask_rule": "The symmetric mask (pairs kept, mirrored edges available) is computed once from the full-data connectivity and applied identically to both halves and both hemispheres.",
+  "network_summaries": ["mean_weight", "mean_strength", "glob_eff", "mean_clust"],
+  "network_summary_rule": "Computed on RAW clipped masked weights (no ratio normalization, no shared scaling): mean_weight = mean available intra-hemispheric edge weight; mean_strength = mean node strength over kept nodes; glob_eff = weighted global efficiency with lengths 1/w; mean_clust = mean Onnela clustering on raw weights.",
+  "estimator": {
+    "D2_edge": "mean over available mirrored intra-hemispheric edges e of (w_L1[e] - w_R1[e]) * (w_L2[e] - w_R2[e]); halves 1 and 2 are independent epoch sets, so the expectation is the squared true difference without a noise term",
+    "D2_node": "mean over kept nodes of (s_L1 - s_R1) * (s_L2 - s_R2) with s = node strength",
+    "D2_<summary>": "(m_L1 - m_R1) * (m_L2 - m_R2) for each network summary m",
+    "averaging": "each quantity is averaged over the 10 splits",
+    "sign": "D2 can be negative (no true asymmetry plus noise); values are not truncated",
+    "frame": "D2 is frame-invariant: (I1 - C1)(I2 - C2) = (L1 - R1)(L2 - R2) because the lesion flip changes the sign of both factors. It is reported once and is valid for both the L/R frame (all 45) and the I/C frame (38). Frame-dependent information is carried by the signed cross-half differences.",
+    "signed_<summary>_LR": "mean over splits of (d1 + d2)/2 with d = m_L - m_R (raw), all subjects",
+    "signed_<summary>_IC": "the same in the ipsilesional-minus-contralesional frame (= signed LR for left lesions, -signed LR for right lesions); NaN for uncertain side",
+    "naive_noiseinflated_*": "full-data squared differences ((L - R)^2 averaged as above), which include the estimation-noise variance; descriptive comparison only"
+  },
+  "summaries": {
+    "core_D2_edge_allbands": "mean of core D2_edge over the 4 bands",
+    "core_D2_node_allbands": "mean of core D2_node over the 4 bands"
+  },
+  "segment_count_check": "Label-free Spearman rho of each D2 and naive column with the number of segments in the full data.",
+  "n_jobs": 4,
+  "outputs": {
+    "subject_dir": "results/v3/step7b/subjects",
+    "csv": "features/v3/abnormality_crosshalf_v3.csv",
+    "meta": "features/v3/abnormality_crosshalf_v3.meta.json",
+    "qc_csv": "results/v3/step7b/crosshalf_qc.csv",
+    "summary_json": "results/v3/step7b/crosshalf_summary.json"
+  }
+}
