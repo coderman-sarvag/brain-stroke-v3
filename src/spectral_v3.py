@@ -8,7 +8,11 @@ mean of the two class means (class-balanced averaging). Unavailable or doubly-in
 The lesion-aligned table (ipsi - contra) is built by lesion_table(), the only code here that reads lesion side.
 Outputs hold subject_id + features only; sidecars record columns, definitions, config hash and input hashes.
 
-Run from the repo root: python src/spectral_v3.py --prev-root <Step 2 out-root> [--out-root O] [--subjects ...]
+Step 3b (configs/v3/spectral_v3b.json, deviation D15): instead of per-epoch features, each class is summarised by
+100 draws of exactly 10 epochs whose PSDs are averaged before any feature is computed (median over draws), so every
+subject has the same, lower noise floor. The Step 3 config and outputs remain unchanged for comparison.
+
+Run from the repo root: python src/spectral_v3.py --prev-root <Step 2 out-root> [--config C] [--out-root O]
 """
 import argparse
 import json
@@ -123,6 +127,41 @@ def class_balanced(values, classes):
     return float(np.mean(means))
 
 
+def subject_seed(subject, cfg):
+    """42 + zero-based Figshare subject index (sub-01 -> 42), independent of which subjects are included."""
+    return cfg["subsample"]["seed_base"] + int(subject.split("-")[1]) - 1
+
+
+def subsampled_features(psd, freqs, ch_names, status, classes, cfg, seed):
+    """Step 3b: per class, n_draws subsets of exactly n_per_class epochs (no replacement); features on each subset's
+    averaged spectrum; median over draws; subject value = mean of the two class values."""
+    ss = cfg["subsample"]
+    labels = np.unique(classes)
+    if len(labels) != 2:
+        raise ValueError(f"Expected two classes, found {labels.tolist()}")
+    rng = np.random.default_rng(seed)
+    class_values = []
+    for label in labels:  # sorted event codes: left_hand (1) first, then right_hand (2)
+        idx = np.flatnonzero(classes == label)
+        if len(idx) < ss["n_per_class"]:
+            raise ValueError(f"Class {label} has {len(idx)} epochs, fewer than {ss['n_per_class']}")
+        draws = np.stack([psd[rng.choice(idx, ss["n_per_class"], replace=ss["replace"])].mean(axis=0)
+                          for _ in range(ss["n_draws"])])
+        feats = epoch_features(draws, freqs, ch_names, status, cfg)
+        class_values.append({k: float(np.median(v)) for k, v in feats.items()})  # NaN pair stays NaN
+    return {k: float(np.mean([cv[k] for cv in class_values])) for k in class_values[0]}
+
+
+def aggregate_subject(psd, freqs, ch_names, status, classes, subject, cfg):
+    """Per-epoch features + class-balanced mean (Step 3), or subsampled averaged spectra (Step 3b)."""
+    if cfg.get("aggregation_method", "per_epoch") == "per_epoch":
+        feats = epoch_features(psd, freqs, ch_names, status, cfg)
+        return {c: class_balanced(v, classes) for c, v in feats.items()}
+    if cfg["aggregation_method"] == "subsampled_average_spectrum":
+        return subsampled_features(psd, freqs, ch_names, status, classes, cfg, subject_seed(subject, cfg))
+    raise ValueError(f"Unknown aggregation_method {cfg['aggregation_method']!r}")
+
+
 # ---------------------------------------------------------------- per subject
 
 def split_names(value):
@@ -135,9 +174,8 @@ def subject_features(subject, epochs_path, qc_row, cfg):
     psd, freqs = compute_psd(eeg.get_data(), eeg.info["sfreq"], cfg)
     interpolated = set(split_names(qc_row.get("interpolated"))) | set(split_names(qc_row.get("screen_interpolated")))
     status = pair_status(eeg.ch_names, set(eeg.info["bads"]), interpolated, cfg["pairs"])
-    feats = epoch_features(psd, freqs, eeg.ch_names, status, cfg)
     classes = epochs.events[:, 2]
-    row = {"subject_id": subject, **{c: class_balanced(v, classes) for c, v in feats.items()}}
+    row = {"subject_id": subject, **aggregate_subject(psd, freqs, eeg.ch_names, status, classes, subject, cfg)}
     masks = band_masks(freqs, cfg)
     single = [pair_name(p) for p in cfg["pairs"] if status[pair_name(p)] is None and len(set(p) & interpolated) == 1]
     unavailable_bads = sorted(pair_name(p) for p in cfg["pairs"] if status[pair_name(p)] == "unavailable")
@@ -152,6 +190,8 @@ def subject_features(subject, epochs_path, qc_row, cfg):
           "n_pairs_used": sum(s is None for s in status.values()),
           "unavailable_matches_epoch_qc": unavailable_bads == qc_unavailable,
           "bins_per_band": json.dumps({b: int(m.sum()) for b, m in masks.items()}),
+          "aggregation_method": cfg.get("aggregation_method", "per_epoch"),
+          "subsample_seed": subject_seed(subject, cfg) if "subsample" in cfg else "",
           "epochs_sha256": sha256_file(epochs_path)}
     return row, qc
 
@@ -238,9 +278,10 @@ def main(argv=None):
     parser = add_root_args(argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter))
     parser.add_argument("--subjects", nargs="*")
     parser.add_argument("--n-jobs", type=int, default=None)
+    parser.add_argument("--config", default=CONFIG, help="spectral config (configs/v3/spectral_v3b.json for Step 3b)")
     args = parser.parse_args(argv)
     roots = roots_from_args(args)
-    cfg, config_path = load_config(CONFIG)
+    cfg, config_path = load_config(args.config)
     inp = cfg["inputs"]
 
     qc_in = pd.read_csv(roots.prev_path(inp["epoch_qc"]), usecols=inp["epoch_qc_columns"])
@@ -283,7 +324,11 @@ def main(argv=None):
                       for c in pc if pd.isna(r[c]) and (r["subject_id"], p) not in nan_expected]
     unexpected_nan += [[r["subject_id"], c] for _, r in features.iterrows()
                        for c in [*(f"mabsAI_{b}" for b in cfg["bands"]), "pdBSI", "DAR", "DTABR"] if pd.isna(r[c])]
-    summary = {"n_subjects": len(features), "n_lesion_rows": len(lesion),
+    summary = {"config": args.config, "aggregation_method": cfg.get("aggregation_method", "per_epoch"),
+               "subsample": cfg.get("subsample"),
+               "pdBSI_range": {"min": float(features["pdBSI"].min()), "median": float(features["pdBSI"].median()),
+                               "max": float(features["pdBSI"].max())},
+               "n_subjects": len(features), "n_lesion_rows": len(lesion),
                "lesion_rows_excluded_uncertain_side": sorted(set(features["subject_id"]) - set(lesion["subject_id"])),
                "bins_per_band": json.loads(qc["bins_per_band"].iloc[0]),
                "bins_identical_all_subjects": bool(qc["bins_per_band"].nunique() == 1),

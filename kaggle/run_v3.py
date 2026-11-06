@@ -35,6 +35,8 @@ STEPS = {
     "2": {"name": "step2_preprocess", "scripts": [["src/preprocess_v3.py", "--mode", "{mode}"]],
           "configs": ["configs/v3/preprocess.json"]},
     "3": {"name": "step3_spectral", "scripts": [["src/spectral_v3.py"]], "configs": ["configs/v3/spectral.json"]},
+    "3b": {"name": "step3b_spectral", "scripts": [["src/spectral_v3.py", "--config", "configs/v3/spectral_v3b.json"]],
+           "configs": ["configs/v3/spectral_v3b.json"]},
 }
 SMALL_SUFFIXES = {".csv", ".json", ".md"}
 MAX_SMALL_BYTES = 50 * 1024 * 1024

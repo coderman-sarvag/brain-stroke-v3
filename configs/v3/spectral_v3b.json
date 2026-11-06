@@ -1,0 +1,151 @@
+{
+  "version": "v3b",
+  "supersedes": "configs/v3/spectral.json (Step 3, per-epoch aggregation); its outputs are kept for comparison",
+  "inputs": {
+    "root": "prev (Step 2 outputs: --prev-root)",
+    "epochs_dir": "data/processed/figshare_v3",
+    "epoch_template": "{subject}-epo.fif",
+    "epoch_qc": "features/v3/epoch_qc_v3.csv",
+    "subject_meta": "features/v3/subject_meta_v3.csv",
+    "epoch_qc_columns": [
+      "subject_id",
+      "include_v3_epochs",
+      "interpolated",
+      "screen_interpolated",
+      "unavailable_pairs_final",
+      "n_epochs_kept",
+      "n_left_kept",
+      "n_right_kept"
+    ],
+    "subject_meta_columns_lesion_step_only": [
+      "subject_id",
+      "lesion_side_final"
+    ]
+  },
+  "psd": {
+    "method": "multitaper",
+    "fmin": 1.0,
+    "fmax": 30.0,
+    "bandwidth_hz": 1.0,
+    "adaptive": false,
+    "low_bias": true,
+    "normalization": "full",
+    "note": "Full 4 s (2000-sample) epoch: 0.25 Hz bin spacing; 1 Hz full bandwidth -> NW = 2, 3 tapers."
+  },
+  "bands": {
+    "delta": [
+      1.0,
+      4.0
+    ],
+    "theta": [
+      4.0,
+      8.0
+    ],
+    "alpha": [
+      8.0,
+      13.0
+    ],
+    "beta": [
+      13.0,
+      30.0
+    ]
+  },
+  "band_rule": "Half-open bins lo <= f < hi; band power = sum of PSD over the band's bins x bin width.",
+  "min_bins_per_band": 6,
+  "expected_bins_per_band": {
+    "delta": 12,
+    "theta": 16,
+    "alpha": 20,
+    "beta": 68
+  },
+  "pairs": [
+    [
+      "F3",
+      "F4"
+    ],
+    [
+      "F7",
+      "F8"
+    ],
+    [
+      "FC3",
+      "FC4"
+    ],
+    [
+      "FT7",
+      "FT8"
+    ],
+    [
+      "C3",
+      "C4"
+    ],
+    [
+      "T7",
+      "T8"
+    ],
+    [
+      "CP3",
+      "CP4"
+    ],
+    [
+      "TP7",
+      "TP8"
+    ],
+    [
+      "P3",
+      "P4"
+    ],
+    [
+      "P7",
+      "P8"
+    ],
+    [
+      "O1",
+      "O2"
+    ]
+  ],
+  "pairs_note": "The 11 analysed homologous pairs (22 channels; Fp1/Fp2 and midline excluded), left channel first.",
+  "features": {
+    "AI": "(L - R) / (L + R) of averaged-spectrum band power",
+    "LR": "ln(L) - ln(R) of averaged-spectrum band power",
+    "absAI": "|AI| of the averaged-spectrum band power",
+    "mabsAI": "mean of absAI over the available pairs, per band (averaged spectrum)",
+    "pdBSI": "mean over available pairs and over PSD bins 1 <= f < 25 Hz of |(R - L) / (R + L)| on the averaged spectrum (van Putten 2007)",
+    "DAR": "delta / alpha power of the averaged spectrum summed over the available analysed channels",
+    "DTABR": "(delta + theta) / (alpha + beta) power of the averaged spectrum summed over the available analysed channels"
+  },
+  "pdbsi_range_hz": [
+    1.0,
+    25.0
+  ],
+  "aggregation": "Step 3b (deviation D15): for each class, 100 draws of exactly 10 epochs (the per-class minimum) without replacement; each draw's multitaper PSDs are averaged, and every feature (AI, LR, absAI, mabsAI, pdBSI per 0.25 Hz bin over 1-25 Hz, DAR, DTABR) is computed on that averaged spectrum; the class value is the median over draws; the subject value is the mean of the two class values (D6). Every subject uses the same 10 epochs per class, so the noise floor is equal across subjects.",
+  "missing_rule": "A pair is NaN (no imputation) when either channel is in the epochs' info['bads'] (unavailable pair) or when both of its channels were interpolated at any stage (continuous-stage 'interpolated' or rule-iii 'screen_interpolated' in epoch_qc). Cross-pair features (mabsAI, pdBSI, DAR, DTABR) use the remaining pairs; the number used is recorded in the QC file.",
+  "lesion": {
+    "column": "lesion_side_final",
+    "certain_sides": [
+      "left",
+      "right"
+    ],
+    "rule": "Approved lesion-alignment step (the only code that reads lesion side). For included subjects with a certain side: ipsilesional minus contralesional, i.e. les_AI = AI and les_LR = LR for a left lesion, and both sign-flipped for a right lesion; les_meanAI = mean of les_AI over available pairs. |AI| is sign-free and is not repeated. Subjects with an uncertain side have no row in the lesion table."
+  },
+  "epoch_count_check": "Label-free: Spearman rho of every feature with n_epochs_kept and with the smaller class count, across included subjects; reported, not used for any choice.",
+  "n_jobs": 4,
+  "outputs": {
+    "features_csv": "features/v3/spectral_v3b.csv",
+    "features_meta": "features/v3/spectral_v3b.meta.json",
+    "lesion_csv": "features/v3/spectral_lesion_v3b.csv",
+    "lesion_meta": "features/v3/spectral_lesion_v3b.meta.json",
+    "qc_csv": "results/v3/step3b/spectral_qc.csv",
+    "summary_json": "results/v3/step3b/spectral_summary.json"
+  },
+  "aggregation_method": "subsampled_average_spectrum",
+  "subsample": {
+    "n_per_class": 10,
+    "n_draws": 100,
+    "replace": false,
+    "seed_base": 42,
+    "seed_rule": "seed = 42 + zero-based subject index in the Figshare numbering (sub-01 -> 42, sub-50 -> 91); one numpy default_rng per subject, draws taken class by class (left_hand, then right_hand)",
+    "summary": "median over draws"
+  },
+  "noise_floor_note": "Per-epoch, per-bin |BSI| for statistically identical hemispheres with 3 tapers is about 0.31 (chi2(6) power ratios); averaging 10 epochs per spectrum lowers it to about 0.10."
+}

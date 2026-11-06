@@ -171,3 +171,57 @@ def test_main_end_to_end_on_synthetic_step2_output(tmp_path):
     assert summary["bins_per_band"] == CFG["expected_bins_per_band"] and summary["unexpected_nan"] == []
     assert summary["unavailable_cross_check_ok"] and summary["lesion_rows_excluded_uncertain_side"] == ["sub-02"]
     assert ["sub-01", "T7T8"] in summary["nan_pairs"] and ["sub-02", "O1O2"] in summary["nan_pairs"]
+
+
+# ---------------------------------------------------------------- Step 3b: subsampled averaged spectra (D15)
+
+CFG_B = json.loads((ROOT / "configs/v3/spectral_v3b.json").read_text(encoding="utf-8"))
+
+
+def run_features_b(epochs, subject="sub-07", interpolated=()):
+    eeg = epochs.copy().pick("eeg", exclude=[])
+    psd, freqs = sp.compute_psd(eeg.get_data(), SF, CFG_B)
+    status = sp.pair_status(eeg.ch_names, set(eeg.info["bads"]), set(interpolated), CFG_B["pairs"])
+    return sp.aggregate_subject(psd, freqs, eeg.ch_names, status, epochs.events[:, 2], subject, CFG_B)
+
+
+def independent_equal_noise(rng, n):
+    """Statistically identical hemispheres: independent white noise of equal variance in every channel."""
+    return {c: 1e-5 * rng.standard_normal((n, N)) for c in ANALYSED}
+
+
+def test_subject_seed_rule():
+    assert sp.subject_seed("sub-01", CFG_B) == 42 and sp.subject_seed("sub-07", CFG_B) == 48
+    assert sp.subject_seed("sub-50", CFG_B) == 91
+
+
+def test_identical_hemispheres_pdbsi_at_averaged_floor_not_per_epoch_floor():
+    epochs = make_epochs([1, 2] * 20, independent_equal_noise, seed=11)
+    per_epoch, _ = run_features(epochs)
+    averaged = run_features_b(epochs)
+    assert 0.25 < per_epoch["pdBSI"] < 0.37          # per-epoch, per-bin floor ~0.31 (3 tapers, chi2(6))
+    assert 0.07 < averaged["pdBSI"] < 0.14           # 10-epoch averaged-spectrum floor ~0.10
+    assert averaged["mabsAI_alpha"] < per_epoch["mabsAI_alpha"]
+
+
+def test_subsampled_known_asymmetry_is_exact():
+    epochs = make_epochs([1, 2] * 12, scaled_pairs({("F3", "F4"): 2.0, ("C3", "C4"): 1.0}), seed=3)
+    f = run_features_b(epochs)
+    assert f["AI_alpha_F3F4"] == pytest.approx(0.6, abs=1e-9) and f["LR_beta_F3F4"] == pytest.approx(np.log(4), abs=1e-9)
+    assert f["AI_delta_C3C4"] == pytest.approx(0.0, abs=1e-12)
+
+
+def test_subsampling_is_deterministic_per_subject_and_needs_ten_per_class():
+    epochs = make_epochs([1, 2] * 15, independent_equal_noise, seed=5)
+    a, b = run_features_b(epochs, "sub-07"), run_features_b(epochs, "sub-07")
+    c = run_features_b(epochs, "sub-08")
+    assert a == b and a["pdBSI"] != c["pdBSI"]
+    with pytest.raises(ValueError, match="fewer than 10"):
+        run_features_b(make_epochs([1] * 12 + [2] * 9, independent_equal_noise, seed=6))
+
+
+def test_subsampled_nan_rules_unchanged():
+    epochs = make_epochs([1, 2] * 10, independent_equal_noise, bads=["O1", "O2"], seed=7)
+    f = run_features_b(epochs, interpolated={"T7", "T8"})
+    assert np.isnan(f["AI_alpha_O1O2"]) and np.isnan(f["absAI_beta_T7T8"])
+    assert np.isfinite([f["pdBSI"], f["DAR"], f["DTABR"], f["AI_alpha_F3F4"]]).all()

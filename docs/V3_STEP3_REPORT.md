@@ -1,6 +1,8 @@
 # V3 Step 3 Report: Multi-band Spectral Representation
 
-**Date:** 2026-11-06. **Branch:** `fix/flowchart-pipeline`. **Status:** DONE. All acceptance checks pass; one QC finding (epoch-count dependence) is carried forward to the Step 8 design.
+**Date:** 2026-11-06. **Branch:** `fix/flowchart-pipeline`. **Status:** DONE, but its |AI|, mabsAI and pdBSI features are **superseded by Step 3b** (deviation D15; `configs/v3/spectral_v3b.json`). This run's outputs are kept unchanged for comparison.
+
+> **Review correction (Step 3 review).** Computing |AI|, mabsAI and pdBSI per epoch (pdBSI per 0.25 Hz bin) and then averaging leaves them at the per-epoch noise floor. With 3 tapers, the per-bin |BSI| for statistically identical hemispheres is about 0.31 (χ²(6) power ratios). The observed cohort pdBSI of 0.315–0.50 (median 0.35) therefore sits at that floor. Averaging spectra before computing the features lowers the floor to about 0.10 for 10 epochs and about 0.05 for 40. Step 3b does this with a fixed 10 epochs per class for every subject. Section 4 is corrected below.
 
 **Code / config:** `src/spectral_v3.py`, `configs/v3/spectral.json` (Kaggle provenance hash equals the committed file).
 **Tests:** `tests/test_spectral_v3.py`, 9 synthetic tests; full repo suite 93/93 locally.
@@ -62,13 +64,11 @@ Spearman ρ of each feature with the number of epochs kept, across the 45 subjec
 | mabsAI delta | −0.308 |
 | absAI delta P3P4 | −0.304 |
 
-Subjects who kept fewer clean epochs show more slowing (DAR, DTABR) and more absolute asymmetry. Two explanations are possible and cannot be separated here:
-1. **Recording quality:** noisier recordings both lose more epochs and keep more residual low-frequency or artifact power.
-2. **Estimator bias:** a mean of |AI| over fewer epochs is biased upward.
+Subjects who kept fewer clean epochs show more slowing (DAR, DTABR) and more absolute asymmetry. The signed AI and LR features show no such dependence (none reach |ρ| ≥ 0.3).
 
-The signed AI and LR features show no such dependence (none reach |ρ| ≥ 0.3).
+**Corrected interpretation (review):** a mean of per-epoch |AI| is **not** biased by the number of epochs averaged. Each per-epoch |AI| has the same expected value whatever the count, so averaging more of them only reduces variance. An earlier version of this report wrongly cited "estimator bias" as a cause. The dependence comes from **recording quality** (noisier recordings lose more epochs and keep more residual low-frequency or artifact power) and/or the **per-epoch noise floor**: |AI| and pdBSI computed per epoch sit near about 0.31, so differences between subjects in noise level move them.
 
-**Implication (no action taken):** pdBSI (planned registry test V4), DAR and DTABR carry a measurable data-quality component. Step 8's frozen registry should pre-specify how this is handled before any label is read, for example a sensitivity analysis adjusting for epoch count or restricted to well-recorded subjects. This report proposes nothing further; the decision belongs to Step 8 approval.
+**Follow-up:** Step 3b recomputes these features on averaged spectra from exactly 10 epochs per class for every subject, which equalises and lowers the floor. Its report re-states these correlations. Any remaining dependence (recording quality) is to be pre-specified in the Step 8 registry before labels are read.
 
 ## 5. Descriptive ranges (label-free, N = 45)
 
