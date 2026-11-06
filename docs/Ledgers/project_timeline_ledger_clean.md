@@ -518,3 +518,9 @@ One Kaggle notebook (commit 9916056, clean) ran Step 4 (reproducing the earlier 
 **Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
 
 The user pasted the Kaggle pytest output at commit 9916056: all v3 tests, **66 passed in 21.24 s**. This is the first execution of the Step 3b, Step 4 and Steps 5-7 synthetic tests. Recorded in `docs/V3_STEP5_7_REPORT.md`; Step 3b limitation L11 is marked resolved.
+
+## State 49 - v3 Step 7b Code: Cross-Half Deformation Estimator (D18)
+
+**Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
+
+To address L15 (noise-inflated unsigned measures), implemented `src/crosshalf_v3.py` with `configs/v3/crosshalf.json`. Per subject it makes 10 class-stratified splits of the clean epochs into two equal independent halves (seed 2000 + subject index) and recomputes Step 4 connectivity in each half with the same estimator, bands and edge rules. The Steps 5-6 symmetric mask, taken from the full data and shared by both halves, and clipping are applied. D2 = mean over mirrored intra edges of (L1-R1)(L2-R2) on raw clipped weights, and likewise for node strength and 4 raw network summaries (mean weight, mean strength, global efficiency, mean clustering), averaged over splits. D2 is frame-invariant (I/C = L/R); signed cross-half network differences provide the LR (45) and IC (38) frames. Full-data squares are kept as `naive_noiseinflated_*`, and the Step 7 unsigned summaries are relabelled noise-inflated, descriptive only. Output `abnormality_crosshalf_v3.csv` with sidecar, QC and summary (D2 per band, share > 0, naive comparison, segment-count rho). The runner gained step 7b. Kaggle tests were written (split stratification, symmetric noise gives mean D2 near 0, a 0.1 asymmetry recovers 0.01, frame invariance, lesion frames, end-to-end); byte-compiled only, per instruction. Deviation D18.

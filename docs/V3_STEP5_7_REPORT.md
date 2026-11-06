@@ -91,7 +91,7 @@ This needs the epoch files (Kaggle, a few minutes) and no labels.
 ## 6. Deviations and limitations
 
 - **D17:** symmetric masking; zero rule; shared-scale weights; IC by sign; IC columns NaN for uncertain side; overall magnitude z-scoring deferred to Step 8 (`V3_HANDOFF_DEVIATIONS.md`).
-- **L15 (new): noise floor of unsigned measures, section 5.**
+- **L15 (new): noise floor of unsigned measures, section 5.** **Update:** addressed by the Step 7b cross-half estimator (D18, `src/crosshalf_v3.py`). The unsigned columns of `graph_*_v3.csv` (abs, Frobenius, Laplacian distance) and the Step 7 `mean_abs_*` / `overall_magnitude_unscaled` summaries are now labelled **noise-inflated, descriptive only**, and are kept unchanged for comparison. Signed LR/IC columns are unaffected.
 - **L16:** core graphs are small (4 nodes, 6 edges). Node clustering and local efficiency rest on 3 edges per neighbourhood and are volatile, especially after clipping.
 - Carried over: L4 (dropped pairs), L9 (one-interpolated endpoints, flagged), L13 (edge-level noise), L14 (delta segment-count dependence), L7 (Kaggle environment).
 - Outputs live in the Kaggle zip (`v3_outputs_small (4).zip`); feature CSVs are committed only at the Step 8 freeze.

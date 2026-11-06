@@ -41,6 +41,8 @@ STEPS = {
     "5": {"name": "step5_6_graph", "scripts": [["src/graph_v3.py"]], "configs": ["configs/v3/graph.json"]},
     "7": {"name": "step7_abnormality", "scripts": [["src/abnormality_v3.py"]],
           "configs": ["configs/v3/abnormality.json", "configs/v3/graph.json"]},
+    "7b": {"name": "step7b_crosshalf", "scripts": [["src/crosshalf_v3.py"]],
+           "configs": ["configs/v3/crosshalf.json", "configs/v3/connectivity.json", "configs/v3/graph.json"]},
 }
 SMALL_SUFFIXES = {".csv", ".json", ".md"}
 MAX_SMALL_BYTES = 50 * 1024 * 1024
@@ -146,7 +148,7 @@ def main(argv=None):
                 cmd += ["--raw-source", str(args.raw_source.resolve())]
             if script[0] == "src/graph_v3.py" and args.meta_root:
                 cmd += ["--meta-root", str(args.meta_root.resolve())]
-            if step in ("2", "4"):
+            if step in ("2", "4", "7b"):
                 cmd += (["--n-jobs", str(args.n_jobs)] if args.n_jobs else []) + (["--force"] if args.force else [])
                 cmd += ["--subjects", *args.subjects] if args.subjects else []
             print(f"[{spec['name']}] running {' '.join(cmd[1:3])} ... (log: {log_path})", flush=True)
