@@ -25,5 +25,10 @@ data/processed/
 # Locally generated model and plot outputs
 results/
 
+# Downloaded Kaggle run outputs (v3)
+v3_outputs_small/
+v3_outputs_small*.zip
+*.zip
+
 # Notebook checkpoints
 .ipynb_checkpoints/

@@ -1,7 +1,11 @@
 """Run v3 pipeline steps on Kaggle (or locally), resumably, with per-step log files.
 
-Example (Kaggle notebook cell, internet on):
+Examples (Kaggle notebook):
+  # download from Figshare (internet on)
   python kaggle/run_v3.py --steps 0 1 2 --step2-mode diagnostic \
+      --data-root /kaggle/working/data --out-root /kaggle/working/v3_out
+  # use an uploaded Kaggle dataset (no API call; md5/sha256 verified)
+  python kaggle/run_v3.py --steps 0 1 2 --step2-mode diagnostic --raw-source /kaggle/input/<dataset> \
       --data-root /kaggle/working/data --out-root /kaggle/working/v3_out
 
 Steps: 0 = Figshare download + data check, 1 = integrity, 2 = preprocessing (--step2-mode diagnostic|final).
@@ -93,6 +97,8 @@ def main(argv=None):
     p.add_argument("--prev-root", type=Path, default=None, help="earlier-step outputs (default: out-root)")
     p.add_argument("--n-jobs", type=int, default=None, help="step 2 parallel subjects (default: config)")
     p.add_argument("--subjects", nargs="+", default=None, help="step 2 only: subset of subjects (smoke tests)")
+    p.add_argument("--raw-source", type=Path, default=None,
+                   help="step 0 only: folder with the Figshare files (e.g. /kaggle/input/...); no API call")
     p.add_argument("--force", action="store_true")
     args = p.parse_args(argv)
 
@@ -127,6 +133,8 @@ def main(argv=None):
         start, rcs = time.time(), []
         for script in spec["scripts"]:
             cmd = [sys.executable, *[a.format(mode=mode) for a in script], *roots]
+            if script[0] == "src/download_figshare_v3.py" and args.raw_source:
+                cmd += ["--raw-source", str(args.raw_source.resolve())]
             if step == "2":
                 cmd += (["--n-jobs", str(args.n_jobs)] if args.n_jobs else []) + (["--force"] if args.force else [])
                 cmd += ["--subjects", *args.subjects] if args.subjects else []

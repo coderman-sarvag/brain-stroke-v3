@@ -5,17 +5,73 @@
   "citation": "Liu H, et al. A multimodal EEG dataset of acute ischemic stroke patients performing motor imagery. Sci Data 11, 2024. doi:10.1038/s41597-023-02787-8",
   "download_root": "figshare",
   "files": {
-    "edffile.zip": {"target": "edffile.zip", "extract_to": "extracted"},
-    "participants.tsv": {"target": "participants.tsv"},
-    "participants.json": {"target": "participants.json"},
-    "task-motor-imagery_events.tsv": {"target": "task-motor-imagery_events.tsv"},
-    "task-motor-imagery_events.json": {"target": "task-motor-imagery_events.json"},
-    "task-motor-imagery_channels.tsv": {"target": "task-motor-imagery_channels.tsv"},
-    "task-motor-imagery_electrodes.tsv": {"target": "task-motor-imagery_electrodes.tsv"},
-    "task-motor-imagery_eeg.json": {"target": "task-motor-imagery_eeg.json"},
-    "task-motor-imagery_coordsystem.json": {"target": "task-motor-imagery_coordsystem.json"},
-    "dataset_description.json": {"target": "dataset_description.json"},
-    "README.md": {"target": "README.md"}
+    "edffile.zip": {
+      "target": "edffile.zip",
+      "extract_to": "extracted",
+      "md5": "aa4f96a0e8456f377f30d1ee8f41be40",
+      "size": 462843633,
+      "figshare_file_id": 38516654
+    },
+    "participants.tsv": {
+      "target": "participants.tsv",
+      "md5": "d82596d5309f7d207c760918e74d4553",
+      "size": 3557,
+      "figshare_file_id": 42345150
+    },
+    "participants.json": {
+      "target": "participants.json",
+      "md5": "19ff0e65b74ada4e2df468a2509a22cb",
+      "size": 2389,
+      "figshare_file_id": 38516579
+    },
+    "task-motor-imagery_events.tsv": {
+      "target": "task-motor-imagery_events.tsv",
+      "md5": "f1c1f482471b90a7e067d9c502889647",
+      "size": 3732,
+      "figshare_file_id": 38516084
+    },
+    "task-motor-imagery_events.json": {
+      "target": "task-motor-imagery_events.json",
+      "md5": "3c4fec571862c8bfce41e4a54011d170",
+      "size": 806,
+      "figshare_file_id": 38516081
+    },
+    "task-motor-imagery_channels.tsv": {
+      "target": "task-motor-imagery_channels.tsv",
+      "md5": "7cea7fafbea6c27a908a64e4f9e08308",
+      "size": 709,
+      "figshare_file_id": 38516069
+    },
+    "task-motor-imagery_electrodes.tsv": {
+      "target": "task-motor-imagery_electrodes.tsv",
+      "md5": "803e56c5d8713a2e037cae49b46f2c5d",
+      "size": 761,
+      "figshare_file_id": 38516078
+    },
+    "task-motor-imagery_eeg.json": {
+      "target": "task-motor-imagery_eeg.json",
+      "md5": "1949b61d99b34801defd25d2530dc32e",
+      "size": 569,
+      "figshare_file_id": 38516075
+    },
+    "task-motor-imagery_coordsystem.json": {
+      "target": "task-motor-imagery_coordsystem.json",
+      "md5": "c0ddd76983c871f75724747797f62fa8",
+      "size": 66,
+      "figshare_file_id": 38516072
+    },
+    "dataset_description.json": {
+      "target": "dataset_description.json",
+      "md5": "8854bd64db759e9bab35d64b6875d06c",
+      "size": 139,
+      "figshare_file_id": 38516573
+    },
+    "README.md": {
+      "target": "README.md",
+      "md5": "e39a8f87938e1b117f3b0a5ce989c37d",
+      "size": 515,
+      "figshare_file_id": 42305223
+    }
   },
   "not_downloaded": {
     "sourcedata.zip": "~1.87 GB raw vendor files; not needed (handoff Step 0)",
@@ -23,5 +79,61 @@
     "code.zip": "authors' code; not executed by this pipeline"
   },
   "chunk_bytes": 1048576,
-  "manifest_output": "results/v3/step0/download_manifest.json"
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36 brain-stroke-v3-research-download",
+  "manifest_output": "results/v3/step0/download_manifest.json",
+  "hash_source": "md5: Figshare API computed_md5, matched by the local download on 2026-11-06 (Step 0). edf_sha256: sha256 of each EDF extracted from that md5-verified edffile.zip (Step 0 data check). Used to verify files without contacting the API.",
+  "edf_relative_template": "extracted/edffile/{subject}/eeg/{subject}_task-motor-imagery_eeg.edf",
+  "edf_sha256": {
+    "sub-01": "77c6e1182489fce80448ddc274e70cbd671072ea2af83c6c29bb4f5ac524683e",
+    "sub-02": "a75436196f49168bb91bba4ae1b8fef114bb789404c7f3610307788faf3f8564",
+    "sub-03": "9292993139aa0f25ff79237055ea85f8fe242673fe4b6d69b40cf9f2c48d6e22",
+    "sub-04": "1ea037f139bb8df8a4a7c8c1d1e73060ea17f1016eaffabd58489b22e8b2be1d",
+    "sub-05": "e447d85ec4efaa585ec8bdc96fc1f47ea930b4817f7485ddd6761217a8143c17",
+    "sub-06": "acf30efbb5d698a1f891e88ccad1363ebed2d8abe9df60f4bcbaf800f3b30693",
+    "sub-07": "37796d478dc28bb8336b6b842162bf755702f10bf44d362c81a9d31b6aee5cba",
+    "sub-08": "510d6cd651a5b07e0fbb59ae70cec80028507c140a73f2bffdb533578b387a64",
+    "sub-09": "23d157d29e6d99fe3272b4c8d00be78c199d14da9b66069edb47b2ce25a916ac",
+    "sub-10": "5902d5295eb9a127413e9194f87f30f4f8e5154b4c4317bc9bd2c85c2909b135",
+    "sub-11": "865355275b51fb37f723c10294b842c8211b71ff178822e81752e7b5fc79b3d5",
+    "sub-12": "56dfa81b1d0ced304b924ab389a3a58446d60628f999897d4583b02a4c7b7624",
+    "sub-13": "db9ed832a2b408bebe4ae7a4c75340047b48d3eca09e1fa1242b31461721ea28",
+    "sub-14": "ad2529a8e9a8f58b2359b87c1483eaed1359efdd975b5e1049d5c83c7e6a102e",
+    "sub-15": "367ab54dca4ed358776aae217caaf00fee375691beb9380ce2c65162a50c209b",
+    "sub-16": "86a515d2be96c3f4241778c3a7d45399656f4993a9e9694991dad41b9afdfe07",
+    "sub-17": "63f62e43caf93134b51ea7546e76fe5f76a8fcf0126493aa1e49a7b866461868",
+    "sub-18": "3829ab02551c5b098865f9976c18756f0185cbd2ac11215a86fa3c7a7f90594d",
+    "sub-19": "09ac4fcc81783259958d4e9a979850562449ac041d18f5834c4273b29db6a53e",
+    "sub-20": "4dc1f1d0009a7b1694142c6796b586e0f50b87ac4129a5cdc62152c1dd7b3fe4",
+    "sub-21": "3eebb59399bc378e6869e89704d1f97945108d3b9ff105ee56559efb6acb5d78",
+    "sub-22": "26ba6b272207477e3bf6e309a4e56bf797146e239e1bc1f7a5b555cc525dc39f",
+    "sub-23": "db4d9dd926a6643d4f179e580673680ed93b614e9804bfb8884bd47579368b58",
+    "sub-24": "446ed9a9b2eaa7e6718a557306c808999993165a7cfa12556c7fa0252647471c",
+    "sub-25": "f4d4b3f33c69f14a95758746eee7fad0ca6d6bef75695eb1cfa4923385beb7de",
+    "sub-26": "0e268b83fc6be4389e75c2745758e77725502b50a7d69c8978e0ad4a7bb5714d",
+    "sub-27": "25a031a0d1f610ceb689fc2cb20a67ebc5be7ad1053d47797d13ab1476802bf1",
+    "sub-28": "ba2d1440a8b392a8ee0de5098fe83bab67d0b625f1b2782ecc47186b7cc5eb2e",
+    "sub-29": "5cbd3eb586aa078bd1fd7da5b6fbd4beb6955ea8158f9c670fece0cfc4f29df1",
+    "sub-30": "283a1b8e67ebef9b0bb1783ccd6ccc0ea14a87753ddcf17f6bc7ae218a31127f",
+    "sub-31": "10a8198cb3462432411d24415d25f746a233f40014f3199c22952e252a5e2266",
+    "sub-32": "b4f8b46d52385f97ea4c9f95b10cc8d9d23d47218b87c147edabbf949b8bfcb5",
+    "sub-33": "bee7ced0959e94e02e9a4ca8f96f54b6e445185922a251622591f71868d508a1",
+    "sub-34": "baaf0ec2725f34416e842a0243f979a892257bb372c67db99b4c3b510e60270a",
+    "sub-35": "e76798c66b40dd75dff1530f1109a0c06db6647e5365b2810eda37656fa14d10",
+    "sub-36": "45e31e7496661da07b38ac0811bf4635b99cc6bd87767c0a9aa21e79526b6bf0",
+    "sub-37": "e42e1071bb74c1e33059ed296ccb7e29c84c296324f5a9e86ae6cec0ab27fa39",
+    "sub-38": "cd817995e3472ad5b296f28d0f471b73a2b508ee3e9473279ca96e44bc9f8818",
+    "sub-39": "b7d145822082d28d4cbc3e6705e84eb1848111b15f5382b67988fb6d3bcf4d73",
+    "sub-40": "3356d774a8cf8d042d8af5c3a3eea431c266bf35b705ca4ecd14bdcd0b75d835",
+    "sub-41": "a72f85d92e9258307f27aafb80822f64403d6d641c0fa770726420a0f7581c4a",
+    "sub-42": "cbbd8fd4c0768b35e08c33e00c3a49a94f14c78701595d24542b1275bb49eafe",
+    "sub-43": "c9630c728ee16c377aba578fef2606bfafa9a6ed1e26da965d341b1c39e8a2a0",
+    "sub-44": "a59e874ff8a1bd9b9c2d71ab6334a030ad60d38f40a2d64a03c9969384ffd949",
+    "sub-45": "6e3246ec6c4d31c7936ba116ea27761ccbf7289ad7de3262be0e63c7522da27a",
+    "sub-46": "c2a66e4a64f32e12b04096dbb77744abd3db33576ec04d7f2f1888b82b2d082f",
+    "sub-47": "ffbffdc0b78fc56603fb05aaa0808414151ea2da8f6bbbc0f48a1c2f5d70c6ee",
+    "sub-48": "e191f0cd38f0fe84d07c05725816953590293443ccb114114c96d56fb3f05ef1",
+    "sub-49": "e21ae95cbe6fceb0de4e44178b91299658dd6e7614e8b6d1acccb87f2103b308",
+    "sub-50": "f008af1770c21d503283482e2afc26cdd5dc3bf309ac417794d6744a24e3497f"
+  },
+  "offline_rule": "A file already under <data-root>/figshare whose md5 matches is used as is (no API call). With --raw-source the API is never called: files are found by name under that folder, copied and verified; edffile.zip (md5) or an already-extracted edffile/ tree (every EDF sha256) is accepted. Without --raw-source the API is called only for missing files, with the user_agent header, and the API md5 must equal the stored md5."
 }
