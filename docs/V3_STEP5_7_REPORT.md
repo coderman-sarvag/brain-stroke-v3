@@ -3,7 +3,10 @@
 **Date:** 2026-11-06. **Branch:** `fix/flowchart-pipeline`. **Status:** computed and integrity-checked, label-free. **Open issue (section 5):** the unsigned asymmetry measures are of the size expected from estimation noise, so a noise-floor check is recommended before freezing.
 
 **Run (Kaggle):** commit `9916056` (clean), Python 3.13. One notebook ran Step 4, then Steps 5–6, then Step 7; Steps 5–7 took about 8 s in total. Input was the saved notebook `brain-stroke-v3-step2-final`. **Step 4 was re-run and reproduced the earlier Step 4 tables byte for byte** (`connectivity_core_v3.csv`, `connectivity_ext_v3.csv`). The config hashes (`graph.json`, `abnormality.json`) equal the committed files.
-**Tests:** the Kaggle notebook ran `pytest tests/test_*_v3.py` first. Its output was not shared, so the pass/fail result is unconfirmed here.
+**Tests:** **66 passed in 21.24 s** (`pytest tests/test_*_v3.py` in the same Kaggle notebook at commit `9916056`, before the pipeline run; output pasted by the user). This covers all v3 test files, including the new `test_connectivity_v3.py` (7) and `test_graph_v3.py` (8):
+- **Step 5–6 checks:** a symmetric graph gives zeros; a 2:1 asymmetry gives exactly 1/3 in every measure; masking is symmetric; clipping is counted correctly; the lesion sign is correct; an end-to-end Steps 5 → 7 run.
+- **Step 4 checks:** segment split, derangement, edge rules, wPLI on lagged vs independent signals, and surrogate exceedance.
+- **Earlier checks:** this was also the first execution of the Step 3b tests that were written without running.
 **Label blindness:** no outcome column read. Lesion side is read once (`graph_v3.lesion_signs`), only to set the IC sign.
 
 ## Step 5: hemispheric graphs, pairing, masking, deformation

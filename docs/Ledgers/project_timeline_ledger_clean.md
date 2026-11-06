@@ -512,3 +512,9 @@ Implemented `src/graph_v3.py` (Steps 5-6) and `src/abnormality_v3.py` (Step 7) w
 **Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
 
 One Kaggle notebook (commit 9916056, clean) ran Step 4 (reproducing the earlier tables byte for byte), Steps 5-6 and Step 7. Symmetric masking dropped core pairs sub-13 O1O2 and sub-31 C3C4 (extended also sub-29/30 T7T8) and masked 2 core / 9 extended mirrored edges; clipping affected a median of 18-25% of values. The tables were written with verified sidecars: node 45 x 540, edge 45 x 792, network 45 x 168, region 45 x 200, relational 45 x 195 with IC for 38. Label-free descriptives show large unsigned asymmetries (normalized Frobenius median about .55; mean |node difference| about .52), consistent with the estimation-noise level expected from Step 4's near-floor edges. This is limitation L15, a positive bias of unsigned measures under noise analogous to Step 3's pdBSI. A per-subject split-half noise-floor check was proposed for the user's decision before the freeze. The pytest result from the notebook was not shared. Report: `docs/V3_STEP5_7_REPORT.md`.
+
+## State 48 - v3 Test Suite Confirmed on Kaggle
+
+**Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
+
+The user pasted the Kaggle pytest output at commit 9916056: all v3 tests, **66 passed in 21.24 s**. This is the first execution of the Step 3b, Step 4 and Steps 5-7 synthetic tests. Recorded in `docs/V3_STEP5_7_REPORT.md`; Step 3b limitation L11 is marked resolved.

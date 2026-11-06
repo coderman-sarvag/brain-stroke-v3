@@ -81,4 +81,4 @@ Spearman ρ of each feature with the number of epochs kept in Step 2, N = 45:
 
 - L9 (single-sided interpolated pairs), L4 (missing pairs as NaN) and L7 (Kaggle environment) carry over unchanged.
 - **L10 updated:** the remaining epoch-count dependence is a recording-quality effect concentrated in DAR, DTABR and beta asymmetry (section 3).
-- **L11:** the synthetic tests for Step 3b have not been executed yet (byte-compiled only). The byte-identical reproduction of Step 3 and the integrity checks above are the only evidence about correctness so far.
+- **L11 (resolved 2026-11-06):** the Step 3b synthetic tests were first executed on Kaggle at commit `9916056` as part of the full v3 suite: **66 passed** (14 in `test_spectral_v3.py`, including the averaged-spectrum floor test). See `V3_STEP5_7_REPORT.md`.
