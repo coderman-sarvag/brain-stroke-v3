@@ -542,3 +542,9 @@ The registry review fixed the family: V1 pdBSI, V2 les_meanAI_delta (N 38), V3 c
 **Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
 
 Kaggle runs at 026cc79 and 59dea01 each had 79/80 tests passing; the grouped-split test failed, and the gates were not reached. A diagnostic run showed that sklearn StratifiedGroupKFold(shuffle=True) produced an 8-subject validation fold that was entirely one class (share 1.0 vs .56 overall) on the synthetic data; groups were never split. `train_regression_v3.grouped_splits` now applies StratifiedKFold to the unique recording groups (group stratum = class of the lowest-ID member) and expands folds to members. The test was made strict again (both classes per fold, share within .20, groups intact, partition; 5 datasets x 3 seeds). The change is recorded in the registry config (split_rule_change), registry text section 3, D19 and the prep report, and needs the user's confirmation at the registry-v3 tag. Gates must be re-run on the fixed engine; nothing was run locally.
+
+## State 53 - v3 Registry Tests and Synthetic Gates Passed on Kaggle
+
+**Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
+
+Kaggle at commit 4172eaa (version 366315699, about 71 min): all v3 tests 80/80. Gate A (positive control, planted rho .6, N 45): ridge rho .553 and association rho .673, both p = 1/1001. Gate B (200 null datasets): ridge FPR 5/200 = .025 (exact CI .008-.057), association 14/200 = .070 (.039-.115); both CIs contain .05. Gate C (shuffled-label smoke): all 6 registry tables ran, including in-fold imputation of 32 and 12 missing cells in the S11 models. Consolidated report `docs/V3_STEP8_GATES_REPORT.md`, including the pre-freeze interpolation check. registry-v3 not tagged; no real labels read; awaiting user approval of the registry text, the splitter change and the label-hash handling.
