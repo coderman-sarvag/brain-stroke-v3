@@ -1,7 +1,9 @@
 """Step 0: download the Figshare stroke EEG files via the API and verify computed_md5.
 
-Run from the repo root: python src/download_figshare_v3.py
+Run from the repo root: python src/download_figshare_v3.py [--data-root D] [--out-root O]
+Files go to <data-root>/figshare/; the manifest goes under <out-root>.
 """
+import argparse
 import json
 from pathlib import Path, PurePosixPath
 import sys
@@ -9,7 +11,8 @@ import urllib.request
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from provenance_v3 import ROOT, load_config, md5_file, sha256_file, write_with_config  # noqa: E402
+from paths_v3 import add_root_args, roots_from_args  # noqa: E402
+from provenance_v3 import display_path, load_config, md5_file, sha256_file, write_with_config  # noqa: E402
 
 CONFIG = "configs/v3/figshare_download.json"
 
@@ -51,7 +54,8 @@ def safe_extract(zip_path, dest):
         return len(archive.infolist())
 
 
-def main():
+def main(argv=None):
+    roots = roots_from_args(add_root_args(argparse.ArgumentParser(description=__doc__)).parse_args(argv))
     config, config_path = load_config(CONFIG)
     meta = fetch_metadata(config["api_url"])
     if meta.get("doi") != config["expected_doi"]:
@@ -61,7 +65,7 @@ def main():
     if missing:
         raise RuntimeError(f"Files missing from the Figshare article: {missing}")
 
-    root = ROOT / config["download_root"]
+    root = roots.data_path(config["download_root"])
     records = []
     for name, spec in config["files"].items():
         info = remote[name]
@@ -69,18 +73,18 @@ def main():
         status = download(info["download_url"], target, info["computed_md5"], config["chunk_bytes"])
         record = {"name": name, "figshare_file_id": info["id"], "size": info["size"],
                   "computed_md5": info["computed_md5"], "local_md5": md5_file(target),
-                  "local_sha256": sha256_file(target), "path": target.relative_to(ROOT).as_posix(), "status": status}
+                  "local_sha256": sha256_file(target), "path": display_path(target, roots.data), "status": status}
         if "extract_to" in spec:
             record["extracted_members"] = safe_extract(target, root / spec["extract_to"])
-            record["extracted_to"] = (root / spec["extract_to"]).relative_to(ROOT).as_posix()
+            record["extracted_to"] = display_path(root / spec["extract_to"], roots.data)
         records.append(record)
         print(f"{name}: {status}")
 
-    write_with_config(ROOT / config["manifest_output"],
+    write_with_config(roots.out_path(config["manifest_output"]),
                       {"article": {"id": meta["id"], "title": meta["title"], "doi": meta["doi"], "version": meta.get("version"),
                                    "license": (meta.get("license") or {}).get("name")},
                        "files": records, "not_downloaded": config["not_downloaded"]},
-                      config_path, sources=[Path(__file__)])
+                      config_path, sources=[Path(__file__)], roots=roots)
     print(f"All {len(records)} files verified against computed_md5")
 
 

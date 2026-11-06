@@ -3,7 +3,7 @@
   "api_url": "https://api.figshare.com/v2/articles/21679035",
   "expected_doi": "10.6084/m9.figshare.21679035.v5",
   "citation": "Liu H, et al. A multimodal EEG dataset of acute ischemic stroke patients performing motor imagery. Sci Data 11, 2024. doi:10.1038/s41597-023-02787-8",
-  "download_root": "data/raw/figshare",
+  "download_root": "figshare",
   "files": {
     "edffile.zip": {"target": "edffile.zip", "extract_to": "extracted"},
     "participants.tsv": {"target": "participants.tsv"},

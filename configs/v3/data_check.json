@@ -1,6 +1,6 @@
 {
-  "edf_glob": "data/raw/figshare/extracted/edffile/sub-*/eeg/*.edf",
-  "events_tsv": "data/raw/figshare/task-motor-imagery_events.tsv",
+  "edf_glob": "figshare/extracted/edffile/sub-*/eeg/*.edf",
+  "events_tsv": "figshare/task-motor-imagery_events.tsv",
   "events_onset_unit_divisor": 1000,
   "imagery_event_value": 2,
   "trial_type_codes": {"1": "left_hand", "2": "right_hand"},

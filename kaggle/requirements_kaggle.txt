@@ -1,0 +1,8 @@
+# Packages the Kaggle Python image lacks, pinned to the versions validated locally (configs/v3/environment.json).
+# Kaggle already provides numpy, scipy, pandas, scikit-learn, joblib, matplotlib, psutil, xarray, pytest.
+# Requires Python >= 3.11 (mne 1.13.2, pyprep 0.10.0); mne needs numpy >= 2.1, scipy >= 1.14, matplotlib >= 3.9,
+# so pip upgrades those if the image is older. The actual versions used are recorded by kaggle/run_v3.py.
+mne==1.13.2
+mne-connectivity==0.9.0
+python-picard==0.8.2
+pyprep==0.10.0

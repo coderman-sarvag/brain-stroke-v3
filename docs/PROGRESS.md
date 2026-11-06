@@ -23,7 +23,7 @@ v3 is a new pre-specified exploratory pipeline designed after the v2 null result
 |---|---|---|
 | 0 Environment and Figshare data | DONE 2026-11-06 | 11 files md5-verified via API; 50/50 EDFs 500 Hz, 33 ch, 40 imagery events (20/20), CPz constant 0; 6/6 tests. [Report](V3_STEP0_REPORT.md) |
 | 1 Data integrity | DONE 2026-11-06 | sub-04/05 identical → both excluded (user decision), N=48; 11/15, 47/49 grouped. Marker channel shows sidecar misaligned in 15/50 (sub-06 up to 1.66 s); 40 usable marker-matched trials per subject. Lesion side 18 L / 23 R / 7 uncertain (N=48). EOG HEOR vs sidecar VEOR unverified. Rest data absent (closed). [Report](V3_STEP1_REPORT.md) |
-| 2 Preprocessing | NEXT | Epoch from marker onsets; CPz re-reference; per-EOG-channel ICA |
+| 2 Preprocessing | IN PROGRESS | Code, config and tests committed (no full run locally). Class-balanced averaging replaces equalization; > 9 bad channels → flagged, no ICA; `--mode diagnostic` compares 3 screen rules label-free; Kaggle runner `kaggle/run_v3.py`. 2-subject diagnostic (sub-06, sub-13): occipital channels (O1/O2/Oz) drive rejections. **Next:** full diagnostic on Kaggle → user picks screen rule and per-class minimum → final run. Deviations: [V3_HANDOFF_DEVIATIONS.md](V3_HANDOFF_DEVIATIONS.md) |
 
 ## Registered primary results
 

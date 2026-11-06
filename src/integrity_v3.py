@@ -4,8 +4,9 @@ Produces features/v3/subject_meta_v3.csv (metadata only, no features, no outcome
 plus duplicate, event-timing and lesion-side evidence under results/v3/step1/.
 Reads participants.tsv through an explicit column allow-list: NIHSS, MBI and mRS are never loaded.
 
-Run from the repo root: python src/integrity_v3.py
+Run from the repo root: python src/integrity_v3.py [--data-root D] [--out-root O]
 """
+import argparse
 import hashlib
 from itertools import combinations
 import json
@@ -18,7 +19,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from provenance_v3 import ROOT, load_config, write_with_config  # noqa: E402
+from paths_v3 import add_root_args, roots_from_args  # noqa: E402
+from provenance_v3 import load_config, write_with_config  # noqa: E402
 
 CONFIG = "configs/v3/integrity.json"
 OPPOSITE = {"left": "right", "right": "left"}
@@ -26,11 +28,11 @@ OPPOSITE = {"left": "right", "right": "left"}
 
 # ---------------------------------------------------------------- metadata
 
-def load_participants(cfg):
+def load_participants(cfg, roots):
     allowed = cfg["allowed_participant_columns"]
     if set(allowed) & set(cfg["forbidden_participant_columns"]):
         raise ValueError("An outcome column is in the allow-list")
-    table = pd.read_csv(ROOT / cfg["participants_tsv"], sep="\t", usecols=list(allowed), dtype=str)
+    table = pd.read_csv(roots.data_path(cfg["participants_tsv"]), sep="\t", usecols=list(allowed), dtype=str)
     table = table.rename(columns=allowed)
     for col in table.columns:
         table[col] = table[col].str.strip()
@@ -230,11 +232,12 @@ def channel_label_check(edf_channels, channels_tsv):
 
 # ---------------------------------------------------------------- main
 
-def main():
+def main(argv=None):
+    roots = roots_from_args(add_root_args(argparse.ArgumentParser(description=__doc__)).parse_args(argv))
     cfg, config_path = load_config(CONFIG)
-    meta = load_participants(cfg)
+    meta = load_participants(cfg, roots)
     subjects = meta["subject_id"].tolist()
-    paths = sorted(ROOT.glob(cfg["edf_glob"]))
+    paths = sorted(roots.data.glob(cfg["edf_glob"]))
     if [subject_of(p) for p in paths] != subjects:
         raise RuntimeError("EDF subjects do not match participants.tsv")
 
@@ -247,7 +250,7 @@ def main():
     flagged = pairs[pairs["identical"] | pairs["near_duplicate"]]
     groups = split_groups(subjects, list(zip(flagged["subject_a"], flagged["subject_b"])))
 
-    events_table = pd.read_csv(ROOT / cfg["events_tsv"], sep="\t")
+    events_table = pd.read_csv(roots.data_path(cfg["events_tsv"]), sep="\t")
     timing_results = [event_timing(p, events_table, cfg["events"]) for p in paths]
     timing = pd.DataFrame([row for row, _ in timing_results])
     trials = pd.concat([t for _, t in timing_results], ignore_index=True)
@@ -277,13 +280,13 @@ def main():
     if forbidden & {c.casefold() for c in out.columns}:
         raise RuntimeError("Outcome column leaked into the meta table")
 
-    paths_out = {k: ROOT / v for k, v in cfg["outputs"].items()}
+    paths_out = {k: roots.out_path(v) for k, v in cfg["outputs"].items()}
     paths_out["meta"].parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(paths_out["meta"], index=False)
     paths_out["pairs_csv"].parent.mkdir(parents=True, exist_ok=True)
     pairs.sort_values("median_r", ascending=False).to_csv(paths_out["pairs_csv"], index=False)
     timing.to_csv(paths_out["events_csv"], index=False)
-    trials.to_csv(ROOT / cfg["events"]["marker_events_csv"], index=False)
+    trials.to_csv(roots.out_path(cfg["events"]["marker_events_csv"]), index=False)
 
     raw0 = mne.io.read_raw_edf(paths[0], preload=False, verbose="ERROR")
     para_counts = meta["paralysis_side"].str.casefold().value_counts().to_dict()
@@ -305,7 +308,7 @@ def main():
                    "left_right_order_verifiable": False},
         "rest_data": {"present": False, "status": "CLOSED",
                       "evidence": "40 trials x 8 s = 320 s equals every recording length (Step 0); first event at 1 ms."},
-        "channel_labels": channel_label_check(raw0.ch_names, ROOT / cfg["channels_tsv"]),
+        "channel_labels": channel_label_check(raw0.ch_names, roots.data_path(cfg["channels_tsv"])),
         "paralysis": {"data_left": int(para_counts.get("left", 0)), "data_right": int(para_counts.get("right", 0)),
                       "paper_left": cfg["paper"]["paralysis_left"], "paper_right": cfg["paper"]["paralysis_right"],
                       "status": "paper-vs-data discrepancy; source TSV is authoritative"},
@@ -317,7 +320,8 @@ def main():
         "motion_artifact_flagged": sorted(motion),
     }
     write_with_config(paths_out["report_json"], {"summary": summary}, config_path,
-                      sources=[Path(__file__), ROOT / cfg["participants_tsv"], ROOT / cfg["events_tsv"]])
+                      sources=[Path(__file__), roots.data_path(cfg["participants_tsv"]), roots.data_path(cfg["events_tsv"])],
+                      roots=roots)
     print(json.dumps(summary, indent=1, default=str))
 
 

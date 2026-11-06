@@ -1,0 +1,117 @@
+{
+  "inputs": {
+    "edf_template": "figshare/extracted/edffile/{subject}/eeg/{subject}_task-motor-imagery_eeg.edf",
+    "edf_template_root": "data",
+    "subject_meta": "features/v3/subject_meta_v3.csv",
+    "marker_events": "results/v3/step1/marker_events.csv",
+    "previous_step_root": "prev"
+  },
+  "channels": {
+    "eeg": ["FP1", "FP2", "Fz", "F3", "F4", "F7", "F8", "FCz", "FC3", "FC4", "FT7", "FT8", "Cz", "C3", "C4",
+            "T3", "T4", "CPz", "CP3", "CP4", "TP7", "TP8", "Pz", "P3", "P4", "T5", "T6", "Oz", "O1", "O2"],
+    "eog": ["HEOL", "HEOR"],
+    "eog_note": "Second EOG channel is HEOR in the EDF but VEOR (vertical) in the BIDS sidecar: UNVERIFIED. Each EOG channel is used separately; no bipolar HEOL-HEOR derivation.",
+    "drop": [""],
+    "rename_10_10": {"FP1": "Fp1", "FP2": "Fp2", "T3": "T7", "T4": "T8", "T5": "P7", "T6": "P8"},
+    "montage": "standard_1020",
+    "reference_channel": "CPz",
+    "homologous_pairs": [["Fp1", "Fp2"], ["F3", "F4"], ["F7", "F8"], ["FC3", "FC4"], ["FT7", "FT8"], ["C3", "C4"],
+                         ["T7", "T8"], ["CP3", "CP4"], ["TP7", "TP8"], ["P3", "P4"], ["P7", "P8"], ["O1", "O2"]],
+    "analysed_channels": ["F3", "F7", "FC3", "FT7", "C3", "T7", "CP3", "TP7", "P3", "P7", "O1",
+                          "F4", "F8", "FC4", "FT8", "C4", "T8", "CP4", "TP8", "P4", "P8", "O2"],
+    "analysed_channels_note": "The 22 channels of the 11 extended homologous pairs (v2 G24f pairs renamed to 10-10). Fp1/Fp2 and midline excluded.",
+    "midline": ["Fz", "FCz", "Cz", "CPz", "Pz", "Oz"]
+  },
+  "filter": {
+    "l_freq": 1.0, "h_freq": 40.0, "method": "fir", "fir_design": "firwin", "phase": "zero",
+    "notch": null,
+    "notch_note": "No notch: 50 Hz lies beyond the 40 Hz FIR stop band. 50 Hz residue is measured and reported (relative 48-52 Hz power before and after filtering).",
+    "mains_hz": 50.0
+  },
+  "bad_channels": {
+    "method": "pyprep.NoisyChannels (PREP; Bigdely-Shamlo et al. 2015) on the continuous, unfiltered recording (pyprep detrends at 1 Hz internally); reference channel CPz and EOG channels excluded from detection",
+    "random_state": 42,
+    "deviation_threshold": 5.0,
+    "correlation_secs": 1.0,
+    "correlation_threshold": 0.4,
+    "correlation_frac_bad": 0.01,
+    "hf_zscore_threshold": 5.0,
+    "ransac": true,
+    "ransac_n_samples": 50,
+    "ransac_sample_prop": 0.25,
+    "ransac_corr_thresh": 0.75,
+    "ransac_frac_bad": 0.4,
+    "ransac_corr_window_secs": 5.0,
+    "flag_subject_if_bad_fraction_above": 0.2,
+    "max_bad_channels_for_ica": 9,
+    "max_bad_channels_rule": "Reviewer rule (Step 2 review): a subject with more than 9 bad channels (> 31% of the 29 detectable channels) is flagged and ICA is NOT run, so ICA never runs with fewer than the configured 20 components (rank = 29 - n_bad). In final mode the subject is excluded with reason 'too_many_bad_channels'. Correction to the Step 2 status PDF: EOG z-score detection itself remains possible down to 11 components (max attainable z (n-1)/sqrt(n) > 3 needs n >= 11), i.e. it would only become impossible above 18 bad channels; the 9-channel guard is stricter by design.",
+    "note": "All detection thresholds are the PREP published defaults; none was tuned on this cohort."
+  },
+  "reference": {
+    "type": "average",
+    "rule": "1) Average reference over good EEG channels with CPz included as the zero-valued online reference. 2) Spherical-spline interpolation of bad channels from the re-referenced good channels, except channels whose homologous partner is also bad (pair unavailable; channels stay marked bad, not interpolated). 3) Average reference again over all available channels."
+  },
+  "interpolation": {"method": "spline", "mode": "accurate", "origin": "auto"},
+  "ica": {
+    "method": "picard",
+    "fit_params": {"ortho": false, "extended": true},
+    "n_components": 20,
+    "n_components_rule": "min(20, data rank) with rank = 29 - n_bad_channels; equals 20 whenever the bad-channel guard passes",
+    "random_state": 97,
+    "max_iter": 1000,
+    "decim": 2,
+    "fit_reject_eeg_volts": 0.0005,
+    "fit_reject_tstep_s": 2.0,
+    "eog_detection": {"function": "ICA.find_bads_eog", "per_channel": ["HEOL", "HEOR"], "threshold": 3.0,
+                      "measure": "zscore", "l_freq": 1.0, "h_freq": 10.0},
+    "remove": "union of components flagged by any EOG channel"
+  },
+  "epochs": {
+    "source": "marker_onset of usable trials in results/v3/step1/marker_events.csv (never the shared sidecar)",
+    "event_id": {"left_hand": 1, "right_hand": 2},
+    "tmin": 0.0,
+    "tmax_samples": 2000,
+    "baseline": null,
+    "peak_to_peak_volts": 0.00015,
+    "screen_rules": {
+      "all_scalp": "150 uV peak-to-peak on every available scalp EEG channel (CPz included after re-referencing; unavailable-pair channels excluded).",
+      "analysed": "150 uV peak-to-peak on the 22 analysed channels only (Fp1/Fp2 and midline not screened).",
+      "analysed_after_marking": "Before screening, any analysed channel that alone exceeds 150 uV in >= 30% of the subject's epochs is marked bad and interpolated on the epochs (left bad, pair unavailable, if its homologous partner is also bad), the average reference is re-applied, then rule 'analysed' is applied."
+    },
+    "marking_fraction": 0.30,
+    "final_screen_rule": "PENDING_DIAGNOSTIC",
+    "final_screen_rule_note": "Chosen by the user from the label-free diagnostic run (--mode diagnostic). Final mode refuses to run until this is one of the screen_rules keys."
+  },
+  "class_balance": {
+    "method": "class_balanced_average",
+    "rule": "Replaces left/right count equalization (handoff Step 2.8; reviewer change). All clean epochs are kept; each kept epoch's class (left_hand/right_hand) is saved in the epoch events and metadata. Later feature steps compute every feature per class and average the two class means, so each class has equal weight without discarding epochs."
+  },
+  "min_epochs": {
+    "proposed_rule": ">= 10 clean epochs in each class (left and right) under the chosen screen rule",
+    "rule": "Fixed only from the label-free epoch-count distribution of the diagnostic run; reported to the user before it is applied.",
+    "status": "PENDING_USER"
+  },
+  "heog_check": {
+    "channels_asymmetry": [["F3", "F4"], ["F7", "F8"]],
+    "eog": ["HEOL", "HEOR"],
+    "bands": {"delta": [1.0, 4.0], "broadband": [1.0, 40.0]},
+    "psd": {"method": "welch", "n_fft": 1000, "n_per_seg": 1000},
+    "statistic": "Per subject, Spearman rho across epochs between AI = (L-R)/(L+R) band power and log EOG band power; before ICA (re-referenced, interpolated) vs after ICA, same epochs. Diagnostic mode: all usable (unscreened) epochs. Final mode: kept epochs.",
+    "dominated_abs_rho": 0.3,
+    "min_epochs": 5
+  },
+  "n_jobs": 4,
+  "outputs": {
+    "epochs_dir": "data/processed/figshare_v3",
+    "subject_dir_final": "results/v3/step2/subjects_final",
+    "subject_dir_diagnostic": "results/v3/step2/subjects_diagnostic",
+    "log_csv": "results/v3/step2/preprocess_log.csv",
+    "heog_csv": "results/v3/step2/heog_check.csv",
+    "summary_json": "results/v3/step2/preprocess_summary.json",
+    "epoch_qc": "features/v3/epoch_qc_v3.csv",
+    "diagnostic_subjects_csv": "results/v3/step2/diagnostic_subjects.csv",
+    "diagnostic_channels_csv": "results/v3/step2/diagnostic_channel_exceedance.csv",
+    "diagnostic_heog_csv": "results/v3/step2/diagnostic_heog_check.csv",
+    "diagnostic_summary_json": "results/v3/step2/diagnostic_summary.json"
+  }
+}

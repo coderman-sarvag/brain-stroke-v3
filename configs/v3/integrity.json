@@ -1,9 +1,9 @@
 {
-  "participants_tsv": "data/raw/figshare/participants.tsv",
-  "participants_json": "data/raw/figshare/participants.json",
-  "channels_tsv": "data/raw/figshare/task-motor-imagery_channels.tsv",
-  "events_tsv": "data/raw/figshare/task-motor-imagery_events.tsv",
-  "edf_glob": "data/raw/figshare/extracted/edffile/sub-*/eeg/*.edf",
+  "participants_tsv": "figshare/participants.tsv",
+  "participants_json": "figshare/participants.json",
+  "channels_tsv": "figshare/task-motor-imagery_channels.tsv",
+  "events_tsv": "figshare/task-motor-imagery_events.tsv",
+  "edf_glob": "figshare/extracted/edffile/sub-*/eeg/*.edf",
   "allowed_participant_columns": {
     "Participant_ID": "subject_id", "Gender": "sex", "Age": "age", "Duration": "duration_days",
     "ParalysisSide": "paralysis_side", "Handedness": "handedness", "IsFirstTime": "is_first_stroke",
