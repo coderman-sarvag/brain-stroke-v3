@@ -344,17 +344,22 @@ def final_subject(subject, cfg, roots, marker_events):
     epochs = make_epochs(cleaned, events, meta, cfg)
     screened, details = apply_screen(epochs, rule, cfg)
     counts = class_counts(screened, ids)
+    included = min(counts["left"], counts["right"]) >= cfg["min_epochs"]["per_class"]
+    log.update(screen_rule=rule, screen_marked=";".join(details["marked"]),
+               screen_interpolated=";".join(details["interpolated_on_epochs"]),
+               screen_new_unavailable_pairs=";".join("-".join(p) for p in details["new_unavailable_pairs"]),
+               unavailable_pairs_final=";".join(sorted({"-".join(p) for p in cfg["channels"]["homologous_pairs"]
+                                                        if set(p) <= set(screened.info["bads"])})),
+               n_usable_trials=len(events), n_epochs_kept=counts["total"], n_left_kept=counts["left"],
+               n_right_kept=counts["right"], excluded_reason="" if included else "min_epochs_per_class")
+    if not included:  # no epoch file, so an excluded subject cannot be used downstream by mistake
+        return {"log": log, "heog": {"subject_id": subject}}
     out_dir = roots.out_path(cfg["outputs"]["epochs_dir"])
     out_dir.mkdir(parents=True, exist_ok=True)
     screened.save(out_dir / f"{subject}-epo.fif", overwrite=True, verbose="ERROR")
     ica.save(out_dir / f"{subject}-ica.fif", overwrite=True, verbose="ERROR")
     kept = screened.selection
     pre = make_epochs(pre_ica, events[kept], meta.iloc[kept].reset_index(drop=True), cfg)
-    log.update(screen_rule=rule, screen_marked=";".join(details["marked"]),
-               screen_interpolated=";".join(details["interpolated_on_epochs"]),
-               screen_new_unavailable_pairs=";".join("-".join(p) for p in details["new_unavailable_pairs"]),
-               n_usable_trials=len(events), n_epochs_kept=counts["total"], n_left_kept=counts["left"],
-               n_right_kept=counts["right"], excluded_reason="")
     heog = {"subject_id": subject, **{f"before_{k}": v for k, v in heog_asymmetry(pre, cfg).items()},
             **{f"after_{k}": v for k, v in heog_asymmetry(screened, cfg).items()}}
     return {"log": log, "heog": heog}
@@ -443,13 +448,21 @@ def aggregate_final(results, cfg, config_path, roots, failed):
     outs["log_csv"].parent.mkdir(parents=True, exist_ok=True)
     log.to_csv(outs["log_csv"], index=False)
     heog.to_csv(outs["heog_csv"], index=False)
-    qc_cols = ["subject_id", "n_bad", "bad_channels", "interpolated", "unavailable_pairs", "ica_status", "screen_rule",
-               "screen_marked", "screen_new_unavailable_pairs", "n_epochs_kept", "n_left_kept", "n_right_kept", "excluded_reason"]
+    log["include_v3_epochs"] = log["excluded_reason"].fillna("") == ""
+    qc_cols = ["subject_id", "include_v3_epochs", "excluded_reason", "n_bad", "bad_channels", "interpolated",
+               "unavailable_pairs", "ica_status", "screen_rule", "screen_marked", "screen_interpolated",
+               "screen_new_unavailable_pairs", "unavailable_pairs_final", "n_epochs_kept", "n_left_kept", "n_right_kept"]
     outs["epoch_qc"].parent.mkdir(parents=True, exist_ok=True)
     log.reindex(columns=qc_cols).to_csv(outs["epoch_qc"], index=False)
-    summary = {"mode": "final", "screen_rule": cfg["epochs"]["final_screen_rule"], "n_subjects_ok": len(log),
-               "failed_subjects": failed, "epochs_kept": distribution(log["n_epochs_kept"]),
-               "min_class": distribution(log[["n_left_kept", "n_right_kept"]].min(axis=1)),
+    included = log[log["include_v3_epochs"]]
+    summary = {"mode": "final", "screen_rule": cfg["epochs"]["final_screen_rule"],
+               "min_epochs_per_class": cfg["min_epochs"]["per_class"], "n_subjects_ok": len(log),
+               "n_included": len(included), "excluded": log.loc[~log["include_v3_epochs"], ["subject_id", "excluded_reason"]].values.tolist(),
+               "failed_subjects": failed, "epochs_kept_included": distribution(included["n_epochs_kept"]),
+               "min_class_included": distribution(included[["n_left_kept", "n_right_kept"]].min(axis=1)),
+               "subjects_with_unavailable_analysed_pairs": log.loc[log["unavailable_pairs_final"].fillna("").str.contains(
+                   "|".join(f"{a}-{b}" for a, b in cfg["channels"]["homologous_pairs"] if a != "Fp1")),
+                   ["subject_id", "unavailable_pairs_final"]].values.tolist(),
                "heog": summarize_heog(heog, cfg["heog_check"]["dominated_abs_rho"]) if len(heog.columns) > 1 else {}}
     write_with_config(outs["summary_json"], {"summary": summary}, config_path, sources=[Path(__file__)], roots=roots)
     return summary

@@ -132,8 +132,17 @@ def test_bad_channel_guard():
     assert ica_allowed(9, CFG) and not ica_allowed(10, CFG)
 
 
-def test_final_mode_refuses_until_screen_rule_chosen():
-    assert CFG["epochs"]["final_screen_rule"] not in CFG["epochs"]["screen_rules"]
+def test_approved_screen_rule_and_minimum():
+    assert CFG["epochs"]["final_screen_rule"] == "analysed_after_marking"
+    assert CFG["epochs"]["final_screen_rule"] in CFG["epochs"]["screen_rules"]
+    assert CFG["min_epochs"]["per_class"] == 10
+
+
+def test_final_mode_refuses_while_screen_rule_pending(monkeypatch):
+    import preprocess_v3
+    pending = copy.deepcopy(CFG)
+    pending["epochs"]["final_screen_rule"] = "PENDING_DIAGNOSTIC"
+    monkeypatch.setattr(preprocess_v3, "load_config", lambda rel: (pending, ROOT / "configs/v3/preprocess.json"))
     with pytest.raises(SystemExit, match="final_screen_rule"):
         main(["--mode", "final"])
 

@@ -79,17 +79,18 @@
       "analysed_after_marking": "Before screening, any analysed channel that alone exceeds 150 uV in >= 30% of the subject's epochs is marked bad and interpolated on the epochs (left bad, pair unavailable, if its homologous partner is also bad), the average reference is re-applied, then rule 'analysed' is applied."
     },
     "marking_fraction": 0.30,
-    "final_screen_rule": "PENDING_DIAGNOSTIC",
-    "final_screen_rule_note": "Chosen by the user from the label-free diagnostic run (--mode diagnostic). Final mode refuses to run until this is one of the screen_rules keys."
+    "final_screen_rule": "analysed_after_marking",
+    "final_screen_rule_note": "User decision 2026-11-06 after the label-free Kaggle diagnostic (48 subjects, commit 15e5b69, config sha256 48f407d0...). Smaller class < 10: all_scalp 11 subjects, analysed 6, analysed_after_marking 3. Final mode refuses to run unless this is one of the screen_rules keys."
   },
   "class_balance": {
     "method": "class_balanced_average",
     "rule": "Replaces left/right count equalization (handoff Step 2.8; reviewer change). All clean epochs are kept; each kept epoch's class (left_hand/right_hand) is saved in the epoch events and metadata. Later feature steps compute every feature per class and average the two class means, so each class has equal weight without discarding epochs."
   },
   "min_epochs": {
-    "proposed_rule": ">= 10 clean epochs in each class (left and right) under the chosen screen rule",
-    "rule": "Fixed only from the label-free epoch-count distribution of the diagnostic run; reported to the user before it is applied.",
-    "status": "PENDING_USER"
+    "per_class": 10,
+    "rule": "A subject is included only if it keeps >= 10 clean epochs in each class (left and right) under the final screen rule. Proposed before the diagnostic run and confirmed by the user from the label-free epoch-count distribution; excluded subjects get no epoch file.",
+    "status": "APPROVED_USER_2026-11-06",
+    "expected_from_diagnostic": "excludes sub-40 (2), sub-06 (8), sub-27 (8); N = 45"
   },
   "heog_check": {
     "channels_asymmetry": [["F3", "F4"], ["F7", "F8"]],
