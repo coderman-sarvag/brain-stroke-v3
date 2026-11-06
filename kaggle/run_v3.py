@@ -37,6 +37,7 @@ STEPS = {
     "3": {"name": "step3_spectral", "scripts": [["src/spectral_v3.py"]], "configs": ["configs/v3/spectral.json"]},
     "3b": {"name": "step3b_spectral", "scripts": [["src/spectral_v3.py", "--config", "configs/v3/spectral_v3b.json"]],
            "configs": ["configs/v3/spectral_v3b.json"]},
+    "4": {"name": "step4_connectivity", "scripts": [["src/connectivity_v3.py"]], "configs": ["configs/v3/connectivity.json"]},
 }
 SMALL_SUFFIXES = {".csv", ".json", ".md"}
 MAX_SMALL_BYTES = 50 * 1024 * 1024
@@ -99,7 +100,7 @@ def main(argv=None):
     p.add_argument("--out-root", type=Path, required=True)
     p.add_argument("--prev-root", type=Path, default=None, help="earlier-step outputs (default: out-root)")
     p.add_argument("--n-jobs", type=int, default=None, help="step 2 parallel subjects (default: config)")
-    p.add_argument("--subjects", nargs="+", default=None, help="step 2 only: subset of subjects (smoke tests)")
+    p.add_argument("--subjects", nargs="+", default=None, help="steps 2 and 4 only: subset of subjects (smoke tests)")
     p.add_argument("--raw-source", type=Path, default=None,
                    help="step 0 only: folder with the Figshare files (e.g. /kaggle/input/...); no API call")
     p.add_argument("--force", action="store_true")
@@ -138,7 +139,7 @@ def main(argv=None):
             cmd = [sys.executable, *[a.format(mode=mode) for a in script], *roots]
             if script[0] == "src/download_figshare_v3.py" and args.raw_source:
                 cmd += ["--raw-source", str(args.raw_source.resolve())]
-            if step == "2":
+            if step in ("2", "4"):
                 cmd += (["--n-jobs", str(args.n_jobs)] if args.n_jobs else []) + (["--force"] if args.force else [])
                 cmd += ["--subjects", *args.subjects] if args.subjects else []
             print(f"[{spec['name']}] running {' '.join(cmd[1:3])} ... (log: {log_path})", flush=True)

@@ -1,0 +1,60 @@
+{
+  "inputs": {
+    "root": "prev (Step 2 outputs: --prev-root)",
+    "epochs_dir": "data/processed/figshare_v3",
+    "epoch_template": "{subject}-epo.fif",
+    "epoch_qc": "features/v3/epoch_qc_v3.csv",
+    "epoch_qc_columns": ["subject_id", "include_v3_epochs", "interpolated", "screen_interpolated",
+                         "unavailable_pairs_final", "n_epochs_kept", "n_left_kept", "n_right_kept"]
+  },
+  "segments": {
+    "length_samples": 1000,
+    "per_epoch": 2,
+    "rule": "Each clean 4 s (2000-sample) epoch is split into two non-overlapping 2 s segments [0, 1000) and [1000, 2000). All clean segments of a subject are used together (both classes pooled; deviation D16)."
+  },
+  "connectivity": {
+    "function": "mne_connectivity.spectral_connectivity_epochs",
+    "method": "wpli2_debiased",
+    "mode": "multitaper",
+    "faverage": true,
+    "mt_bandwidth_hz": 2.0,
+    "mt_adaptive": false,
+    "mt_low_bias": true,
+    "note": "2 s segments: 0.5 Hz bins; 2 Hz full bandwidth -> NW = 2, 3 tapers. mne_connectivity selects f_lower <= f <= f_upper, so each band uses fmax = hi - 0.25 Hz to make bands half-open [lo, hi) on the 0.5 Hz grid."
+  },
+  "bands": {"delta": [1.0, 4.0], "theta": [4.0, 8.0], "alpha": [8.0, 13.0], "beta": [13.0, 30.0]},
+  "band_upper_offset_hz": 0.25,
+  "expected_bins_per_band": {"delta": 6, "theta": 8, "alpha": 10, "beta": 34},
+  "delta_note": "With 2 s segments the 5-cycle frequency is 2.5 Hz; delta bins below it are less reliable (mne_connectivity warns). Recorded as a limitation, not changed.",
+  "channel_sets": {
+    "extended": ["F3", "F7", "FC3", "FT7", "C3", "T7", "CP3", "TP7", "P3", "P7", "O1",
+                 "F4", "F8", "FC4", "FT8", "C4", "T8", "CP4", "TP8", "P4", "P8", "O2"],
+    "core": ["F3", "C3", "P3", "O1", "F4", "C4", "P4", "O2"]
+  },
+  "homologous_pairs": [["F3", "F4"], ["F7", "F8"], ["FC3", "FC4"], ["FT7", "FT8"], ["C3", "C4"], ["T7", "T8"],
+                       ["CP3", "CP4"], ["TP7", "TP8"], ["P3", "P4"], ["P7", "P8"], ["O1", "O2"]],
+  "core_pairs": [["F3", "F4"], ["C3", "C4"], ["P3", "P4"], ["O1", "O2"]],
+  "edges_rule": "All unordered channel pairs within a set, named A-B in the set's channel order (extended 231 edges, core 28). Computed once on the extended set; core edges are the same values (wpli2_debiased is pairwise).",
+  "missing_rule": "Edge NaN (no imputation) when: an endpoint is in info['bads'] (unavailable pair); or an endpoint belongs to a homologous pair whose two channels were both interpolated at any stage (D14, the channel is treated as unavailable); or both endpoints were interpolated (no edge computed from interpolated data on both ends). Edges with exactly one interpolated endpoint are kept and flagged in the edge-flag file (Step 8 sensitivity).",
+  "clipping": "Feature tables store the raw (possibly negative) debiased values; Step 5 graph metrics clip negatives to 0. The fraction of negative available edges is recorded per subject, band and set.",
+  "surrogates": {
+    "n": 200,
+    "seed_base": 1000,
+    "seed_rule": "seed = 1000 + zero-based Figshare subject index (sub-01 -> 1000)",
+    "rule": "For each surrogate, the segment order of the right-hemisphere channels is permuted by a random derangement (no segment keeps its true partner) while left channels keep theirs; wpli2_debiased is recomputed for the homologous edges only. Observed homotopic value 'exceeds' when > the subject's 95th-percentile surrogate, per pair and for the mean over available pairs (extended 11 pairs and core 4 pairs).",
+    "percentile": 95
+  },
+  "segment_count_check": "Label-free Spearman rho of every connectivity feature and homotopic mean with the number of segments, across included subjects.",
+  "n_jobs": 4,
+  "outputs": {
+    "subject_dir": "results/v3/step4/subjects",
+    "core_csv": "features/v3/connectivity_core_v3.csv",
+    "core_meta": "features/v3/connectivity_core_v3.meta.json",
+    "ext_csv": "features/v3/connectivity_ext_v3.csv",
+    "ext_meta": "features/v3/connectivity_ext_v3.meta.json",
+    "edge_flags_csv": "results/v3/step4/connectivity_edge_flags.csv",
+    "qc_csv": "results/v3/step4/connectivity_qc.csv",
+    "surrogate_csv": "results/v3/step4/surrogate_homotopic.csv",
+    "summary_json": "results/v3/step4/connectivity_summary.json"
+  }
+}
