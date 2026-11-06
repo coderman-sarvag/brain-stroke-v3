@@ -554,3 +554,9 @@ Kaggle at commit 4172eaa (version 366315699, about 71 min): all v3 tests 80/80. 
 **Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
 
 The user approved the registry as written in `docs/ANALYSIS_REGISTRY_V3.md`, including D19 (group-level StratifiedKFold splitter replacing StratifiedGroupKFold; synthetic evidence only), and accepted the tests (80/80) and synthetic gates A-C. The approval is recorded in the registry text, `configs/v3/registry_v3.json` status and PROGRESS. Annotated tag `registry-v3` created on the approval commit; branch and both tags (features-v3, registry-v3) pushed to origin. No real-label run yet; the single run is to be executed on Kaggle via `src/run_registry_v3.py`.
+
+## State 55 - v3 Registry Run: Primary Family Complete (No Effect Detected), Sensitivities Crashed
+
+**Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
+
+The one registry-v3 run (Kaggle, tagged commit 09c12dd, run_20261106T163923Z) passed every guard: both tags, frozen files unchanged, all manifest hashes, the participants.tsv md5 and the NIHSS cross-check for 45 subjects. It saved the primary family: V1 pdBSI rho .006 [-.26, .27], p .967; V2 les_meanAI_delta rho -.080 [-.41, .24], p .614 (N 38); V3 core_D2_edge_allbands rho .107 [-.21, .43], p .476; V4 Ridge on 8 core D2 rho -.229 [-.40, -.04], one-sided p .867, RMSE 3.40 vs dummy 2.96 (null mean -.111). Holm p = 1.000 for all four; every decision is "no effect detected". Cohort: 30 mild / 15 moderate (lesion cohort 23/15). The run then crashed in S8-V3 because load_test reads only the listed features, so the registered mean of four extended D2 columns could not be derived; S1-S11 were not saved and COMPLETE was not logged. D20: `src/run_sensitivities_v3.py` repeats all guards, reuses the tagged run_sensitivities() with a column-loading adapter for derived features, and runs S1-S11 only; V1-V4 are not rerun.
