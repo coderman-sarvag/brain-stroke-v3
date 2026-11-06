@@ -1,6 +1,6 @@
-# v3 Analysis Registry (final text, NOT yet tagged)
+# v3 Analysis Registry (APPROVED, tagged `registry-v3`)
 
-**Status:** final text approved at registry review (2026-11-06). **Not tagged `registry-v3`**, and no real-label run has happened. The machine-readable twin is `configs/v3/registry_v3.json`. This file supersedes `ANALYSIS_REGISTRY_V3_DRAFT.md`, whose V1/V2 Ridge models are moved to descriptive S11.
+**Status: APPROVED by the user on 2026-11-06, as written in this file,** including D19 (group-level `StratifiedKFold` splitter replacing `StratifiedGroupKFold`; synthetic evidence only). Tests (80/80) and synthetic gates A–C (`V3_STEP8_GATES_REPORT.md`, Kaggle `4172eaa`) were accepted. The registry is frozen by annotated tag **`registry-v3`**; no test is added afterwards. No real-label run had happened at approval. The machine-readable twin is `configs/v3/registry_v3.json`. This file supersedes `ANALYSIS_REGISTRY_V3_DRAFT.md`, whose V1/V2 Ridge models are moved to descriptive S11.
 **Features frozen:** tag `features-v3` (commit `afb52b5`), `features/v3/MANIFEST.json` (see the label-file erratum in `V3_STEP8_PREP_REPORT.md`).
 **Honesty statement:** v3 was designed after the v2 null result. It fixes documented pipeline defects and completes missing flowchart stages; it is a new pre-specified exploratory analysis, not a rescue of v2. v2 and v3 are reported side by side and every registered test is reported.
 
@@ -32,7 +32,7 @@ All primary features are complete (no missing values) for their cohort.
 ## 3. Engine (`src/train_regression_v3.py`; v2 logic + two changes)
 
 - **CV:** grouped stratified 5-fold, 10 repeats. Implemented as `StratifiedKFold(5, shuffle=True)` over the unique `split_group` units, with each group's stratum = severity class of its lowest-ID member, then expanded to members. Outer seed 42 + repeat; inner alpha selection seed 42 inside each outer training fold.
-  - **Change after the review, synthetic evidence only:** the review named sklearn `StratifiedGroupKFold(shuffle=True)`. On the synthetic test data it produced an 8-subject validation fold that was entirely one class (share 1.0 vs 0.56 overall). Groups were never split in either version; the replacement fixes the class balance. **Needs your confirmation at the `registry-v3` tag.**
+  - **Change after the review, synthetic evidence only:** the review named sklearn `StratifiedGroupKFold(shuffle=True)`. On the synthetic test data it produced an 8-subject validation fold that was entirely one class (share 1.0 vs 0.56 overall). Groups were never split in either version; the replacement fixes the class balance. **Approved by the user 2026-11-06 (D19).**
 - **Pipeline:** `SimpleImputer(median)` → `StandardScaler` → `Ridge`, all fitted inside training folds. Alpha grid logspace(−2, 3, 20); one SVD per inner fold, as in v2.
 - **Permutation:** joint permutation of (NIHSS, severity class) across subjects; groups stay attached to recordings; splits regenerated; 1000 permutations (seed base 43000); p = (1 + #exceed)/(1 + B).
 - **Bootstrap:** 2000 subject-row resamples (seed base 53000), 95% CI. **Holm:** `stats_utils.holm_adjust` (unchanged v2 code).

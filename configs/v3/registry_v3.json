@@ -1,6 +1,6 @@
 {
   "schema_version": "registry-v3",
-  "status": "FINAL TEXT, NOT TAGGED. Real labels may be read only by src/run_registry_v3.py after the features-v3 and registry-v3 tags exist and every manifest hash matches.",
+  "status": "APPROVED by the user 2026-11-06 as written in docs/ANALYSIS_REGISTRY_V3.md (incl. D19 splitter); frozen by tag registry-v3. Real labels may be read only by src/run_registry_v3.py after the features-v3 and registry-v3 tags exist and every manifest hash matches. One run; reruns only with a logged reason.",
   "settings": {
     "alphas": [0.01, 0.01832980710832434, 0.03359818286283781, 0.06158482110660264, 0.11288378916846889,
                0.2069138081114788, 0.37926901907322497, 0.6951927961775606, 1.2742749857031335, 2.3357214690901213,

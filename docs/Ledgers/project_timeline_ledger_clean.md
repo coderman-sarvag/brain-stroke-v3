@@ -548,3 +548,9 @@ Kaggle runs at 026cc79 and 59dea01 each had 79/80 tests passing; the grouped-spl
 **Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
 
 Kaggle at commit 4172eaa (version 366315699, about 71 min): all v3 tests 80/80. Gate A (positive control, planted rho .6, N 45): ridge rho .553 and association rho .673, both p = 1/1001. Gate B (200 null datasets): ridge FPR 5/200 = .025 (exact CI .008-.057), association 14/200 = .070 (.039-.115); both CIs contain .05. Gate C (shuffled-label smoke): all 6 registry tables ran, including in-fold imputation of 32 and 12 missing cells in the S11 models. Consolidated report `docs/V3_STEP8_GATES_REPORT.md`, including the pre-freeze interpolation check. registry-v3 not tagged; no real labels read; awaiting user approval of the registry text, the splitter change and the label-hash handling.
+
+## State 54 - v3 Registry Approved and Tagged registry-v3
+
+**Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
+
+The user approved the registry as written in `docs/ANALYSIS_REGISTRY_V3.md`, including D19 (group-level StratifiedKFold splitter replacing StratifiedGroupKFold; synthetic evidence only), and accepted the tests (80/80) and synthetic gates A-C. The approval is recorded in the registry text, `configs/v3/registry_v3.json` status and PROGRESS. Annotated tag `registry-v3` created on the approval commit; branch and both tags (features-v3, registry-v3) pushed to origin. No real-label run yet; the single run is to be executed on Kaggle via `src/run_registry_v3.py`.
