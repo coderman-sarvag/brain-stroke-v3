@@ -1,5 +1,7 @@
 # v3 Analysis Registry: DRAFT for user approval
 
+> **SUPERSEDED (2026-11-06)** by `docs/ANALYSIS_REGISTRY_V3.md` after the registry review. The draft's V1/V2 Ridge models are now descriptive S11. Kept for the record.
+
 **Status: DRAFT, not frozen, not tagged.** No v3 step has read NIHSS, severity class, MBI or mRS. Nothing in this file may be run against real labels until the user approves it, the features are frozen (`features-v3` tag + manifest), and this registry is finalised as `docs/ANALYSIS_REGISTRY_V3.md` and tagged `registry-v3`.
 **Date:** 2026-11-06. **Basis:** handoff Step 8, Steps 0–7b reports, deviations D1–D18.
 

@@ -77,13 +77,13 @@ def main(argv=None):
     if problems:
         raise SystemExit(f"Freeze verification failed for: {problems}")
 
-    label_path = ROOT / cfg["label_file_reference"]
     manifest = {"created_utc": datetime.now(timezone.utc).isoformat(), "git_at_freeze": git_commit(),
                 "freeze_config_sha256": sha256_file(config_path), "sources": cfg["sources"],
                 "tables": entries, "qc_files": qc,
                 "registry_inputs": [e["path"] for e in entries if e["role"] == "registry_input"],
                 "noise_inflated_not_tested": [e["path"] for e in entries if e["role"] == "noise_inflated_not_tested"],
-                "label_file": {"path": cfg["label_file_reference"], "sha256": sha256_file(label_path),
+                "label_file": {"path": cfg["label_file_reference"],
+                               "sha256": sha(committed_bytes("HEAD", cfg["label_file_reference"])),  # committed (LF) bytes, not the working copy
                                "note": "hashed only; read solely by run_registry_v3.py after features-v3 and registry-v3 tags"},
                 "verification": "every table sha256 equals its sidecar; sidecar config hash equals the shipped config copy and the committed config at the Kaggle commit; all Kaggle runs clean (dirty=false); subject_meta_v3 equals the committed file"}
     (ROOT / cfg["manifest"]).write_text(json.dumps(manifest, indent=1) + "\n", encoding="utf-8")
