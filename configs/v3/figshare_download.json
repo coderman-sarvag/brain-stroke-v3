@@ -1,0 +1,27 @@
+{
+  "article_id": 21679035,
+  "api_url": "https://api.figshare.com/v2/articles/21679035",
+  "expected_doi": "10.6084/m9.figshare.21679035.v5",
+  "citation": "Liu H, et al. A multimodal EEG dataset of acute ischemic stroke patients performing motor imagery. Sci Data 11, 2024. doi:10.1038/s41597-023-02787-8",
+  "download_root": "data/raw/figshare",
+  "files": {
+    "edffile.zip": {"target": "edffile.zip", "extract_to": "extracted"},
+    "participants.tsv": {"target": "participants.tsv"},
+    "participants.json": {"target": "participants.json"},
+    "task-motor-imagery_events.tsv": {"target": "task-motor-imagery_events.tsv"},
+    "task-motor-imagery_events.json": {"target": "task-motor-imagery_events.json"},
+    "task-motor-imagery_channels.tsv": {"target": "task-motor-imagery_channels.tsv"},
+    "task-motor-imagery_electrodes.tsv": {"target": "task-motor-imagery_electrodes.tsv"},
+    "task-motor-imagery_eeg.json": {"target": "task-motor-imagery_eeg.json"},
+    "task-motor-imagery_coordsystem.json": {"target": "task-motor-imagery_coordsystem.json"},
+    "dataset_description.json": {"target": "dataset_description.json"},
+    "README.md": {"target": "README.md"}
+  },
+  "not_downloaded": {
+    "sourcedata.zip": "~1.87 GB raw vendor files; not needed (handoff Step 0)",
+    "stimuli.zip": "task stimuli; not needed for EEG features",
+    "code.zip": "authors' code; not executed by this pipeline"
+  },
+  "chunk_bytes": 1048576,
+  "manifest_output": "results/v3/step0/download_manifest.json"
+}

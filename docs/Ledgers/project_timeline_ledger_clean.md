@@ -428,3 +428,9 @@ Final verification passed: snapshot self-check, actual freeze guard over all 42 
 Created `results/v2/figures/figshare_v2_results_explained.pdf`, an eight-page reader-facing explanation of the completed registered Figshare v2 evaluation. The report uses the frozen primary and descriptive-sensitivity CSVs and the existing overview PNG; it adds cohort and Ridge-versus-dummy RMSE graphics, exact T1-T9 values, definitions of all reported statistical/performance terms and a bounded interpretation of `no_effect_detected`.
 
 No EEG, labels, model settings, registry decisions or result artifacts were modified, and no model or statistical analysis was rerun. PDF size is 184,207 bytes; SHA-256 `4652b678130b9c5e6c51ff98ab5a5a147555c2b35154a093f015ec6512f53168`. The PDF records the negative result, distinguishes absence of detected evidence from proof of no effect, and directs future work toward an independent compatible cohort or an explicitly changed clinical target rather than repeated outcome-driven tuning.
+
+## State 34 - v3 Step 0: Environment and Figshare Data
+
+**Date:** 2026-11-06. Branch `fix/flowchart-pipeline`.
+
+Started v3 (flowchart-compliant pipeline, new files only) following the V3 audit handoff. Created `.venv` (Python 3.12.10, requirements.txt pins + python-picard, pytest); versions in `configs/v3/environment.json`. Downloaded 11 Figshare files (article 21679035 v5) through the API with `src/download_figshare_v3.py`, each verified against `computed_md5`; sourcedata/stimuli/code archives not fetched. `src/check_data_v3.py` confirmed 50/50 EDFs at 500 Hz with 33 channels, 40 imagery events (20 left/20 right) inside every 320 s recording, and CPz constant at 0. 6/6 synthetic tests passed. Observations deferred to Step 1/2: the blank-named channel carries marker-like values; no room for rest data; no named VEOG channel. No clinical field was read. Report: `docs/V3_STEP0_REPORT.md`.

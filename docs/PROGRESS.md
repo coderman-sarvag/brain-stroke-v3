@@ -15,6 +15,15 @@
 | Phase 6 Figshare evaluation/reporting | COMPLETE FOR REGISTERED SCOPE | No predictive model qualifies for promotion; results and figure saved |
 | Phase 7 external NIHSS validation | BLOCKED | Establish compatible clinical labels and raw EEG/common-montage compatibility |
 
+## v3 flowchart-compliant pipeline (branch `fix/flowchart-pipeline`)
+
+v3 is a new pre-specified exploratory pipeline designed after the v2 null result to fix documented pipeline defects and complete missing flowchart stages. v1/v2 files, results and decisions are untouched.
+
+| Step | Status | Evidence / next action |
+|---|---|---|
+| 0 Environment and Figshare data | DONE 2026-11-06 | 11 files md5-verified via API; 50/50 EDFs 500 Hz, 33 ch, 40 imagery events (20/20), CPz constant 0; 6/6 tests. [Report](V3_STEP0_REPORT.md) |
+| 1 Data integrity | NEXT | Duplicate recordings, event timing (blank channel), rest data, motion flags, lesion side; user decision on sub-04/05 |
+
 ## Registered primary results
 
 Completed run: [primary results CSV](../results/v2/runs/primary_20261021_continued/registry_results.csv). All tests succeeded computationally; every decision is `no_effect_detected` and every Holm-adjusted p is 1.000.
