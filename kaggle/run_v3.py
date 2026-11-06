@@ -34,6 +34,7 @@ STEPS = {
     "1": {"name": "step1_integrity", "scripts": [["src/integrity_v3.py"]], "configs": ["configs/v3/integrity.json"]},
     "2": {"name": "step2_preprocess", "scripts": [["src/preprocess_v3.py", "--mode", "{mode}"]],
           "configs": ["configs/v3/preprocess.json"]},
+    "3": {"name": "step3_spectral", "scripts": [["src/spectral_v3.py"]], "configs": ["configs/v3/spectral.json"]},
 }
 SMALL_SUFFIXES = {".csv", ".json", ".md"}
 MAX_SMALL_BYTES = 50 * 1024 * 1024
