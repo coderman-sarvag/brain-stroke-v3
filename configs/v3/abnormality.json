@@ -1,0 +1,28 @@
+{
+  "inputs": {
+    "prev_root": "Step 5-6 outputs (--prev-root)",
+    "node": "features/v3/graph_node_v3.csv",
+    "edge": "features/v3/graph_edge_v3.csv",
+    "network": "features/v3/graph_network_v3.csv"
+  },
+  "primary_set": "core",
+  "secondary_set": "extended",
+  "bands": ["delta", "theta", "alpha", "beta"],
+  "levels": {
+    "node": {"source": "node", "pattern": "{set}_{band}_{pair}_{metric}_{kind}", "metrics": ["strength", "local_eff", "clustering"]},
+    "edge": {"source": "edge", "pattern": "{set}_{band}_{edge}_{kind}", "kinds_map": {"IC": "diffIC", "abs": "abs"}},
+    "network": {"source": "network", "pattern": "{set}_{band}_{measure}_{kind}", "measures": ["glob_eff", "mean_clust", "mean_strength", "mwd"]}
+  },
+  "definition": "Relational abnormality representation (no external data): the patient's contralesional hemisphere is the reference. Vector = primary-set (core) ipsilesional-minus-contralesional differences at node, edge and network level for every band (rel_IC_*; NaN for subjects with uncertain lesion side), plus the frame-invariant absolute versions (rel_abs_*; all subjects, the absolute L/R version used for uncertain-side subjects).",
+  "summaries": {
+    "mean_abs_<level>": "mean over all bands and elements of the primary-set absolute differences at that level (node, edge, network)",
+    "mean_abs_<level>_<band>": "same, per band",
+    "ext_mean_abs_<level>": "same for the secondary (extended) set, descriptive",
+    "overall_magnitude_unscaled": "mean of the three primary-set level summaries without scaling (descriptive only). The registered overall magnitude = mean of the three level summaries after z-scoring each column within the training folds, computed in Step 8 inside cross-validation."
+  },
+  "outputs": {
+    "csv": "features/v3/relational_abnormality_v3.csv",
+    "meta": "features/v3/relational_abnormality_v3.meta.json",
+    "summary_json": "results/v3/step7/abnormality_summary.json"
+  }
+}
