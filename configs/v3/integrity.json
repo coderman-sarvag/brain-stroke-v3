@@ -1,0 +1,71 @@
+{
+  "participants_tsv": "data/raw/figshare/participants.tsv",
+  "participants_json": "data/raw/figshare/participants.json",
+  "channels_tsv": "data/raw/figshare/task-motor-imagery_channels.tsv",
+  "events_tsv": "data/raw/figshare/task-motor-imagery_events.tsv",
+  "edf_glob": "data/raw/figshare/extracted/edffile/sub-*/eeg/*.edf",
+  "allowed_participant_columns": {
+    "Participant_ID": "subject_id", "Gender": "sex", "Age": "age", "Duration": "duration_days",
+    "ParalysisSide": "paralysis_side", "Handedness": "handedness", "IsFirstTime": "is_first_stroke",
+    "StrokeLocation": "stroke_location"
+  },
+  "forbidden_participant_columns": ["NIHSS", "MBI", "mRS"],
+
+  "paper": {
+    "citation": "Liu et al. 2024, Sci Data, doi:10.1038/s41597-023-02787-8",
+    "motion_artifact_subjects": [4, 5, 13, 14, 18, 24, 28, 33, 42, 43, 47, 48, 49],
+    "paralysis_left": 27,
+    "paralysis_right": 23
+  },
+
+  "duplicates": {
+    "channels": ["FP1", "FP2", "Fz", "F3", "F4", "F7", "F8", "FCz", "FC3", "FC4", "FT7", "FT8", "Cz", "C3", "C4",
+                 "T3", "T4", "CPz", "CP3", "CP4", "TP7", "TP8", "Pz", "P3", "P4", "T5", "T6", "Oz", "O1", "O2",
+                 "HEOL", "HEOR"],
+    "near_duplicate_median_r": 0.99,
+    "rule": "Zero-lag raw comparison of every subject pair. identical = every non-constant named channel is sample-for-sample equal. near_duplicate = median Pearson r over non-constant named channels >= threshold. Independent recordings from different people are not expected to exceed |r| ~0.5; 0.99 is a signal-only threshold fixed before any outcome is read.",
+    "known_pairs_from_v2_audit": [["sub-04", "sub-05"], ["sub-11", "sub-15"], ["sub-47", "sub-49"]],
+    "exclusion_decision": "exclude_both_identical",
+    "exclusion_decision_record": "User decision 2026-11-06 (Step 1): exclude both sub-04 and sub-05 from all v3 analyses. Near-identical pairs sub-11/15 and sub-47/49 are kept as shared split groups (StratifiedGroupKFold).",
+    "exclusion_options": {
+      "exclude_both_identical": "Exclude both members of every identical pair from all v3 analyses (correct label unknowable).",
+      "keep_both_grouped": "Keep both, as one split group."
+    }
+  },
+
+  "events": {
+    "marker_channel": "",
+    "marker_scale": 1e-6,
+    "marker_codes": {"1": "instruction_beginning", "2": "imagery_beginning", "3": "break_beginning"},
+    "sidecar_onset_divisor": 1000,
+    "imagery_value": 2,
+    "expected_per_code": 40,
+    "max_abs_lag_samples": 10,
+    "sidecar_agreement_max_abs_lag_samples": 25,
+    "imagery_samples_nominal": 2000,
+    "imagery_short_tolerance_samples": 10,
+    "match_window_samples": 2000,
+    "match_rule": "Each marker imagery onset is matched one-to-one (closest pairs first) to a sidecar imagery onset within +-2000 samples (half the 8 s trial period); left/right comes from the matched sidecar trial. A trial is usable for Step 2 when it is matched and has full-length imagery. Step 2 epochs from marker_onset, not the sidecar.",
+    "rule": "Marker events are every sample where the marker code changes to a non-zero value (so a merged [1,2] pulse yields an instruction and an imagery event). Imagery trial k = k-th code-2 event; its length = samples to the next code-3 event (or recording end). Sidecar agreement: every trial |marker - sidecar| <= 25 samples (50 ms, 1.25% of a 4 s epoch). The original pre-set 10-sample (20 ms) tolerance is still reported; it was widened after seeing that typical lags are 2-19 samples, a label-independent hardware/software latency. Short trial: imagery length < 2000 - 10 samples. Marker codes carry trial phase only, not left/right: left/right is taken from the shared sidecar by trial index and cannot be verified per subject.",
+    "marker_events_csv": "results/v3/step1/marker_events.csv"
+  },
+
+  "lesion": {
+    "side_words": {"left": "left", "right": "right", "bilateral": "bilateral"},
+    "cortical_keywords": ["cortex", "cortical", "lobe", "frontal", "parietal", "temporal", "occipital", "insula"],
+    "subcortical_supratentorial_keywords": ["basal ganglia", "paraventricular", "thalamus", "corona radiata",
+                                            "centrum semiovale", "internal capsule", "lateral ventricle", "subcortical",
+                                            "watershed"],
+    "infratentorial_keywords": ["pons", "medulla", "cerebell"],
+    "location_side_rule": "Split stroke_location on commas only ('and' joins parts of one described region, e.g. 'Right ... lobe and insula'; the first run split on 'and' wrongly made sub-22 unclear and was corrected before any outcome was read). Each component's side is the side word it contains. location_side = left or right only if every component has that same side; 'bilateral' if any component is bilateral; 'mixed' if components disagree; 'unclear' if any component has no side word.",
+    "site_class_rule": "cortical_involving if any component matches a cortical keyword; else subcortical_supratentorial if any matches a subcortical keyword; else infratentorial if any matches an infratentorial keyword; else unclear. has_infratentorial flags any infratentorial component.",
+    "final_side_rule": "lesion_side_paralysis = contralateral of ParalysisSide (participants.json defines it as limb paralysis side). lesion_side_final = lesion_side_paralysis only if location_side equals it; otherwise 'uncertain' (excluded from lesion-aligned analyses only)."
+  },
+
+  "outputs": {
+    "meta": "features/v3/subject_meta_v3.csv",
+    "report_json": "results/v3/step1/integrity.json",
+    "pairs_csv": "results/v3/step1/pairwise_similarity.csv",
+    "events_csv": "results/v3/step1/event_timing.csv"
+  }
+}

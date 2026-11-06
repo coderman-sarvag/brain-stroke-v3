@@ -22,7 +22,8 @@ v3 is a new pre-specified exploratory pipeline designed after the v2 null result
 | Step | Status | Evidence / next action |
 |---|---|---|
 | 0 Environment and Figshare data | DONE 2026-11-06 | 11 files md5-verified via API; 50/50 EDFs 500 Hz, 33 ch, 40 imagery events (20/20), CPz constant 0; 6/6 tests. [Report](V3_STEP0_REPORT.md) |
-| 1 Data integrity | NEXT | Duplicate recordings, event timing (blank channel), rest data, motion flags, lesion side; user decision on sub-04/05 |
+| 1 Data integrity | DONE 2026-11-06 | sub-04/05 identical → both excluded (user decision), N=48; 11/15, 47/49 grouped. Marker channel shows sidecar misaligned in 15/50 (sub-06 up to 1.66 s); 40 usable marker-matched trials per subject. Lesion side 18 L / 23 R / 7 uncertain (N=48). EOG HEOR vs sidecar VEOR unverified. Rest data absent (closed). [Report](V3_STEP1_REPORT.md) |
+| 2 Preprocessing | NEXT | Epoch from marker onsets; CPz re-reference; per-EOG-channel ICA |
 
 ## Registered primary results
 

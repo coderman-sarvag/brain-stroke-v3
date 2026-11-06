@@ -1,0 +1,51 @@
+subject_id,sex,age,duration_days,paralysis_side,handedness,is_first_stroke,stroke_location,location_side,lesion_side_paralysis,lesion_side_agree,lesion_side_final,site_class,has_infratentorial,motion_artifact_paper,split_group,duplicate_status,exclude_v3,exclude_reason,sidecar_agrees,n_usable_trials,n_usable_left,n_usable_right
+sub-01,male,45,1,right,right,yes,Left pons,left,left,True,left,infratentorial,True,False,sub-01,unique,False,,True,40,20,20
+sub-02,male,60,2,left,right,yes,Right pons,right,right,True,right,infratentorial,True,False,sub-02,unique,False,,True,40,20,20
+sub-03,male,60,2,left,right,no,"Left cerebellum, bilateral paraventricular, Right corona radiata",bilateral,right,False,uncertain,subcortical_supratentorial,True,False,sub-03,unique,False,,True,40,20,20
+sub-04,male,56,14,right,right,yes,"Left frontal parietal cortex, Left centrum semiovale",left,left,True,left,cortical_involving,False,True,sub-04,identical,True,identical_recording_label_unknowable,True,40,20,20
+sub-05,female,44,4,left,right,yes,Left pons,left,right,False,uncertain,infratentorial,True,True,sub-04,identical,True,identical_recording_label_unknowable,True,40,20,20
+sub-06,male,66,6,left,left,no,Right pons,right,right,True,right,infratentorial,True,False,sub-06,unique,False,,False,40,20,20
+sub-07,male,62,5,right,right,no,Left pons,left,left,True,left,infratentorial,True,False,sub-07,unique,False,,True,40,20,20
+sub-08,male,64,5,left,right,yes,Right basal ganglia,right,right,True,right,subcortical_supratentorial,False,False,sub-08,unique,False,,False,40,20,20
+sub-09,male,57,3,right,right,yes,Left paraventricular,left,left,True,left,subcortical_supratentorial,False,False,sub-09,unique,False,,True,40,20,20
+sub-10,male,55,2,left,right,no,Right pons,right,right,True,right,infratentorial,True,False,sub-10,unique,False,,False,40,20,20
+sub-11,male,31,7,left,right,yes,Right paraventricular,right,right,True,right,subcortical_supratentorial,False,False,sub-11,near_duplicate,False,,True,40,20,20
+sub-12,male,58,1,right,right,yes,Left medulla oblongata,left,left,True,left,infratentorial,True,False,sub-12,unique,False,,True,40,20,20
+sub-13,male,46,3,right,right,no,Left paraventricular,left,left,True,left,subcortical_supratentorial,False,True,sub-13,unique,False,,False,40,20,20
+sub-14,female,67,2,right,right,yes,Left pons,left,left,True,left,infratentorial,True,True,sub-14,unique,False,,False,40,20,20
+sub-15,male,63,1,left,left,yes,"Right fronto-parietal temporo-occipital lobe, Right inner watershed",right,right,True,right,cortical_involving,False,False,sub-11,near_duplicate,False,,True,40,20,20
+sub-16,male,57,1,right,right,no,Left basal ganglia,left,left,True,left,subcortical_supratentorial,False,False,sub-16,unique,False,,True,40,20,20
+sub-17,male,60,3,left,right,yes,"Right paraventricular, Right basal ganglia",right,right,True,right,subcortical_supratentorial,False,False,sub-17,unique,False,,True,40,20,20
+sub-18,female,60,1,left,right,yes,Right basal ganglia,right,right,True,right,subcortical_supratentorial,False,True,sub-18,unique,False,,False,40,20,20
+sub-19,female,62,1,left,right,no,"Right paraventricular, Right basal ganglia",right,right,True,right,subcortical_supratentorial,False,False,sub-19,unique,False,,True,40,20,20
+sub-20,male,34,24,right,right,no,"Left paraventricular, Right temporal lobe",mixed,left,False,uncertain,cortical_involving,False,False,sub-20,unique,False,,False,40,20,20
+sub-21,male,41,5,left,right,yes,Pons,unclear,right,False,uncertain,infratentorial,True,False,sub-21,unique,False,,True,40,20,20
+sub-22,male,52,6,left,right,yes,"Right temporo-parietal occipital lobe and insula, Right basal ganglia, Right paraventricular",right,right,True,right,cortical_involving,False,False,sub-22,unique,False,,False,40,20,20
+sub-23,male,57,2,left,right,yes,"Right paraventricular, Right basal ganglia",right,right,True,right,subcortical_supratentorial,False,False,sub-23,unique,False,,True,40,20,20
+sub-24,female,55,3,right,right,yes,Left paraventricular,left,left,True,left,subcortical_supratentorial,False,True,sub-24,unique,False,,False,40,20,20
+sub-25,male,47,10,left,right,yes,Right paraventricular,right,right,True,right,subcortical_supratentorial,False,False,sub-25,unique,False,,False,40,20,20
+sub-26,male,61,1,left,right,yes,Right thalamus,right,right,True,right,subcortical_supratentorial,False,False,sub-26,unique,False,,True,40,20,20
+sub-27,female,52,5,right,right,yes,"Left basal ganglia, Left paraventricular",left,left,True,left,subcortical_supratentorial,False,False,sub-27,unique,False,,True,40,20,20
+sub-28,female,42,2,right,right,yes,Left thalamus,left,left,True,left,subcortical_supratentorial,False,True,sub-28,unique,False,,True,40,20,20
+sub-29,male,53,16,right,right,yes,Left thalamus,left,left,True,left,subcortical_supratentorial,False,False,sub-29,unique,False,,False,40,20,20
+sub-30,male,68,4,left,right,yes,Right paraventricular,right,right,True,right,subcortical_supratentorial,False,False,sub-30,unique,False,,False,40,20,20
+sub-31,female,59,5,right,right,no,"Left corona radiata, Left centrum semiovale",left,left,True,left,subcortical_supratentorial,False,False,sub-31,unique,False,,True,40,20,20
+sub-32,male,74,2,right,right,yes,Left pons,left,left,True,left,infratentorial,True,False,sub-32,unique,False,,True,40,20,20
+sub-33,male,63,7,right,right,yes,Pons,unclear,left,False,uncertain,infratentorial,True,True,sub-33,unique,False,,True,40,20,20
+sub-34,female,69,1,left,right,no,Right frontal lobe,right,right,True,right,cortical_involving,False,False,sub-34,unique,False,,True,40,20,20
+sub-35,male,69,11,left,right,no,"Right cerebellum,bilateral occipital lobes",bilateral,right,False,uncertain,cortical_involving,True,False,sub-35,unique,False,,True,40,20,20
+sub-36,male,69,30,left,right,yes,"Right paraventricular,right basal ganglia",right,right,True,right,subcortical_supratentorial,False,False,sub-36,unique,False,,True,40,20,20
+sub-37,male,49,7,left,right,yes,Right internal capsule,right,right,True,right,subcortical_supratentorial,False,False,sub-37,unique,False,,True,40,20,20
+sub-38,male,53,2,right,right,yes,Right pons,right,left,False,uncertain,infratentorial,True,False,sub-38,unique,False,,True,40,20,20
+sub-39,male,56,2,right,right,yes,"Left cerebellar hemisphere, Left medulla oblongata",left,left,True,left,infratentorial,True,False,sub-39,unique,False,,True,40,20,20
+sub-40,female,56,6,left,right,no,Right pons,right,right,True,right,infratentorial,True,False,sub-40,unique,False,,False,40,20,20
+sub-41,male,77,2,right,right,no,Left pons,left,left,True,left,infratentorial,True,False,sub-41,unique,False,,True,40,20,20
+sub-42,male,54,2,right,right,no,Left pons,left,left,True,left,infratentorial,True,True,sub-42,unique,False,,True,40,20,20
+sub-43,male,32,3,left,right,yes,Right frontal lobe,right,right,True,right,cortical_involving,False,True,sub-43,unique,False,,False,40,20,20
+sub-44,male,59,1,left,right,yes,"Right subfrontal cortex, Right basal ganglia, Right lateral ventricle, Right corona radiata",right,right,True,right,cortical_involving,False,False,sub-44,unique,False,,True,40,20,20
+sub-45,male,64,30,right,right,yes,Left pons,left,left,True,left,infratentorial,True,False,sub-45,unique,False,,True,40,20,20
+sub-46,male,66,10,right,right,yes,Left parietal lobe,left,left,True,left,cortical_involving,False,False,sub-46,unique,False,,True,40,20,20
+sub-47,male,40,4,left,right,yes,Right medulla oblongata,right,right,True,right,infratentorial,True,True,sub-47,near_duplicate,False,,True,40,20,20
+sub-48,male,75,18,left,right,yes,"Right subcortical cerebral hemisphere, Right basal ganglia, Left subparietal cortex",mixed,right,False,uncertain,cortical_involving,False,True,sub-48,unique,False,,False,40,20,20
+sub-49,male,52,3,left,right,yes,Right basal ganglia,right,right,True,right,subcortical_supratentorial,False,True,sub-47,near_duplicate,False,,True,40,20,20
+sub-50,female,64,1,left,right,yes,Right pons,right,right,True,right,infratentorial,True,False,sub-50,unique,False,,True,40,20,20

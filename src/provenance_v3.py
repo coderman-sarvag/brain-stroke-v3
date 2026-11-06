@@ -49,10 +49,13 @@ def provenance(config_path, sources=()):
 
 
 def write_with_config(output_path, payload, config_path, sources=()):
-    """Write a JSON output, plus a copy of its config, both beside the output."""
+    """Write a JSON output, plus a copy of its config (<config stem>.config.json), both beside the output."""
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    config_copy = output_path.parent / f"{Path(config_path).stem}.config.json"
+    if config_copy.resolve() == output_path.resolve():
+        raise ValueError("Config copy would overwrite the output")
     payload = {"provenance": provenance(config_path, sources), **payload}
     output_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    shutil.copyfile(config_path, output_path.parent / Path(config_path).name)
+    shutil.copyfile(config_path, config_copy)
     return output_path
