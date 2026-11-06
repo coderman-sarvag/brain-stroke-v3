@@ -31,7 +31,8 @@ All primary features are complete (no missing values) for their cohort.
 
 ## 3. Engine (`src/train_regression_v3.py`; v2 logic + two changes)
 
-- **CV:** outer `StratifiedGroupKFold(5, shuffle=True, random_state = 42 + repeat)`, 10 repeats, stratified on severity class, grouped by `split_group`. The inner alpha selection uses grouped `StratifiedGroupKFold(5, random_state = 42)` inside each outer training fold.
+- **CV:** grouped stratified 5-fold, 10 repeats. Implemented as `StratifiedKFold(5, shuffle=True)` over the unique `split_group` units, with each group's stratum = severity class of its lowest-ID member, then expanded to members. Outer seed 42 + repeat; inner alpha selection seed 42 inside each outer training fold.
+  - **Change after the review, synthetic evidence only:** the review named sklearn `StratifiedGroupKFold(shuffle=True)`. On the synthetic test data it produced an 8-subject validation fold that was entirely one class (share 1.0 vs 0.56 overall). Groups were never split in either version; the replacement fixes the class balance. **Needs your confirmation at the `registry-v3` tag.**
 - **Pipeline:** `SimpleImputer(median)` → `StandardScaler` → `Ridge`, all fitted inside training folds. Alpha grid logspace(−2, 3, 20); one SVD per inner fold, as in v2.
 - **Permutation:** joint permutation of (NIHSS, severity class) across subjects; groups stay attached to recordings; splits regenerated; 1000 permutations (seed base 43000); p = (1 + #exceed)/(1 + B).
 - **Bootstrap:** 2000 subject-row resamples (seed base 53000), 95% CI. **Holm:** `stats_utils.holm_adjust` (unchanged v2 code).

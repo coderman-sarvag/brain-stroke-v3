@@ -1,7 +1,8 @@
 """v3 registry engine: the audited v2 logic (src/train_regression.py) with two changes only.
 
-1. Grouped stratified CV: StratifiedGroupKFold for the outer folds (one shuffled split per repeat, seed split_seed +
-   repeat) and for the inner alpha selection, stratified on severity class, groups = near-duplicate recordings.
+1. Grouped stratified CV: group-level StratifiedKFold (grouped_splits) for the outer folds (one shuffled split per
+   repeat, seed split_seed + repeat) and for the inner alpha selection, stratified on severity class, groups =
+   near-duplicate recordings.
 2. Missing values: SimpleImputer(median) fitted inside every training fold, before StandardScaler.
 
 Unchanged: StandardScaler -> Ridge with the alpha grid chosen by inner CV (same one-SVD-per-fold path as v2),
@@ -21,7 +22,7 @@ from sklearn.dummy import DummyRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, roc_auc_score
-from sklearn.model_selection import StratifiedGroupKFold
+from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -35,8 +36,18 @@ BANNED_PARTS = ("nihss", "severity", "subject", "epoch", "lesion", "paralysis", 
 # ---------------------------------------------------------------- splitting and fitting
 
 def grouped_splits(strata, groups, n_splits, seed):
-    cv = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
-    return list(cv.split(np.zeros(len(strata)), strata, groups))
+    """Stratified K-fold over recording GROUPS: StratifiedKFold on the unique groups (group stratum = class of its
+    first member, i.e. the lowest subject ID after sorting), expanded to all members. Near-duplicate recordings stay
+    in one fold and class balance is as exact as group sizes allow. Replaces sklearn StratifiedGroupKFold(shuffle=True),
+    which produced badly unbalanced folds on the synthetic tests (one 8-subject fold entirely one class)."""
+    strata, groups = np.asarray(strata), np.asarray(groups)
+    unique, first = np.unique(groups, return_index=True)
+    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    splits = []
+    for _, g_valid in cv.split(np.zeros(len(unique)), strata[first]):
+        valid = np.isin(groups, unique[g_valid])
+        splits.append((np.flatnonzero(~valid), np.flatnonzero(valid)))
+    return splits
 
 
 def preprocessor():

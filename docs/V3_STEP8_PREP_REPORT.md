@@ -54,3 +54,16 @@ Holm m = 4; signal = Holm p < 0.05 and |ρ| ≥ 0.30. Descriptive S1–S11. Labe
 | `tests/test_registry_v3.py` | 8 synthetic tests: grouped splits, in-fold imputation, permutation bounds and alternatives, partial Spearman, tag guard, manifest guard, label cross-check, loader whitelist and joint shuffle, plus config ↔ frozen-table consistency (no labels read) |
 
 Expected Kaggle test count: 72 (previous) + 8 = **80**.
+
+## 5. Kaggle test runs and the splitter fix
+
+| Run | Commit | Result |
+|---|---|---|
+| 1 | `026cc79` | 79 passed, **1 failed**: grouped-split test (required both classes in every fold). Gates not reached |
+| 2 | `59dea01` | 79 passed, **1 failed**: relaxed test, class share off by 0.44 |
+| Diagnostic | `59dea01` | sklearn `StratifiedGroupKFold(shuffle=True)` on the synthetic data (20/25 classes, two near-duplicate groups): one 8-subject validation fold was **100% moderate**; other folds 0.25–0.67 against 0.56 overall. Groups were never split |
+
+**Fix:** `grouped_splits` now applies `StratifiedKFold` to the unique recording groups (group stratum = class of the lowest-ID member) and expands folds to members. Near-duplicates stay together and stratification is as exact as group sizes allow. The test is strict again: both classes in every fold, share within 0.20, groups intact, every subject validated once, checked over 5 synthetic datasets × 3 seeds.
+
+- **The engine changed** (only the splitter), so **the gates must run on the fixed engine**. A gate run already in progress on `59dea01` used the old splitter and does not count.
+- **Your confirmation is needed:** the registry text named `StratifiedGroupKFold`, so the change is recorded in `ANALYSIS_REGISTRY_V3.md` §3, `registry_v3.json` (`split_rule_change`) and D19, for you to confirm at the `registry-v3` tag.

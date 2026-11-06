@@ -21,19 +21,21 @@ def synthetic(seed=0, n=45, signal=True):
     return gates.simulate(np.random.default_rng(seed), n=n, p=8, rho=0.6, signal=signal)
 
 
-def test_grouped_splits_keep_groups_partition_and_stratify_approximately():
-    # StratifiedGroupKFold balances classes heuristically; it does not guarantee both classes in every fold
-    # (the engine does not need that: AUC is computed per repeat over all subjects).
-    _, _, strata, groups, _ = synthetic()
-    overall = strata.mean()
-    for seed in (42, 43):
-        seen = []
-        for train, valid in eng.grouped_splits(strata, groups, 5, seed):
-            assert not set(groups[train]) & set(groups[valid])          # near-duplicates never split
-            assert abs(strata[valid].mean() - overall) < 0.30           # approximately stratified
-            seen += valid.tolist()
-        assert sorted(seen) == list(range(len(strata)))                  # every subject validated exactly once
-    assert groups[0] == groups[1] and groups[2] == groups[3]
+def test_grouped_splits_keep_groups_partition_and_stratify():
+    # Group-level StratifiedKFold (replaced sklearn StratifiedGroupKFold(shuffle=True), which produced an 8-subject
+    # all-one-class fold on this exact data on Kaggle).
+    for data_seed in range(5):
+        _, _, strata, groups, _ = synthetic(data_seed)
+        overall = strata.mean()
+        for seed in (42, 43, 51):
+            seen = []
+            for train, valid in eng.grouped_splits(strata, groups, 5, seed):
+                assert not set(groups[train]) & set(groups[valid])          # near-duplicates never split
+                assert set(strata[valid]) == {0, 1}                         # both classes in every fold
+                assert abs(strata[valid].mean() - overall) < 0.20           # stratified
+                seen += valid.tolist()
+            assert sorted(seen) == list(range(len(strata)))                  # every subject validated exactly once
+        assert groups[0] == groups[1] and groups[2] == groups[3]
 
 
 def test_ridge_pipeline_imputes_inside_folds_and_predicts_finite():
